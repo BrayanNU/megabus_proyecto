@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css"
+    />
+    <link type="text/css" rel="stylesheet" href="../css/tablas.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"
+    />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/conductores.css" />
+  </head>
+  <body>
+    <header>
+      <div class="left">
+        <div class="menu-container">
+          <div class="menu" id="menu">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="brand">
+          <img src="../img/bus.jpg" alt="icon-udemy" class="logo" />
+          <span class="name">MEGA BUS</span>
+        </div>
+      </div>
+      <div class="right">
+        <a href="#" class="icons-header">
+          <img src="../icons/chat.svg" alt="chat" />
+        </a>
+        <a href="#" class="icons-header">
+          <img src="../icons/preguntas.svg" alt="question" />
+        </a>
+        <a href="#" class="icons-header">
+          <img src="../icons/notificacion.svg" alt="notification" />
+        </a>
+        <img src="../img/autobus.png" alt="img-bus" class="" />
+      </div>
+    </header>
+    <div class="sidebar" id="sidebar">
+      <nav>
+        <ul>
+          <li>
+            <a href="../vista/dashboard.html">
+              <img src="../icons/dashboard-svgrepo-com.svg" alt="" />
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/conductores.html" class="selected">
+              <img src="../icons/driving-test-svgrepo-com.svg" alt="" />
+              <span>Conductores</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/vehiculos.html">
+              <img src="../icons/bus-svgrepo-com.svg" alt="" />
+              <span>Vehículos</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/rutas.html">
+              <img src="../icons/route-svgrepo-com.svg" alt="" />
+              <span>Rutas</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/reportes.html">
+              <img src="../icons/report-pie-chart-8-svgrepo-com.svg" alt="" />
+              <span>Reportes</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/alertas.html">
+              <img src="../icons/alert-triangle-svgrepo-com.svg" alt="" />
+              <span>Aletas del Sistema</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/notificaciones.html">
+              <img src="../icons/notifications-alert-svgrepo-com.svg" alt="" />
+              <span>Notificaciones</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/usuarios.html">
+              <img src="../icons/users-svgrepo-com.svg" alt="" />
+              <span>usuarios</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/login.html">
+              <img src="../icons/logout-3-svgrepo-com.svg" alt="" />
+              <span>Cerrar Sesion</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <main id="main">
+      <div class="formulario">
+        <h2>Registro de Conductores</h2>
+        <form id="formConductor" method="POST">
+          <input type="hidden" name="accion" value="agregar">
+        
+          <label for="nombre">Dni:</label>
+          <input type="text" id="dni" name="dni">
+
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre">
+        
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" name="apellido">
+        
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" name="email">
+        
+          <label for="password">Contraseña:</label>
+          <input type="text" id="password" name="password">
+        
+          <label for="licencia_conducir">Licencia de conducir:</label>
+          <input type="text" id="licencia_conducir" name="licencia_conducir">
+        
+          <label for="fecha_vencimiento_licencia">Fecha vencimiento licencia:</label>
+          <input type="date" id="fecha_vencimiento_licencia" name="fecha_vencimiento_licencia">
+        
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" name="telefono">
+        
+          <button type="submit">Guardar</button>
+        </form>
+      
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="data_table">
+              <table id="example" class="display">
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Dni</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Licencia</th>
+                    <th>Fecha Vencimiento</th>
+                    <th>Teléfono</th>
+                    <th>accion</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th>N°</th>
+                    <th>Dni</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Licencia</th>
+                    <th>Fecha Vencimiento</th>
+                    <th>Teléfono</th>
+                    <th>accion</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+
+    <script src="../js/conductores.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  </body>
+</html>

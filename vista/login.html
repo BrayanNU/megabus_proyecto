@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Megabus</title>
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="column1">
+      <img src="../img/vector.png" alt="">
+    </div>
+    <div class="column2">
+      <h1>Login</h1>
+<!-- Formulario de inicio de sesión -->
+      <form id="loginForm" class="loginform">
+        <div class="input-group">
+          <label for="correo">Correo:</label>
+          <div style="position: relative;">
+          <input type="email" id="correo" name="correo" />
+          <i class="fa-solid fa-user" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></i>
+          <hr>
+        </div>
+        </div>
+        <div class="input-group">
+          <label for="contrasena">Contraseña:</label>
+          <div style="position: relative;">
+            <input type="password" id="contrasena" name="contrasena" style="padding-right: 30px;" />
+            <i class="fa-solid fa-eye" id="togglePassword" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+          </div>
+          <hr>
+        </div>
+        <button type="submit">Ingresar</button>
+        <p id="loginError" class="error-msg"></p>
+      </form>
+    </div>
+  </div>
+  <!-- Script para mostrar u ocultar la contraseña -->
+  <script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('contrasena');
+  
+    togglePassword.addEventListener('click', function () {
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      this.classList.toggle('fa-eye');
+      this.classList.toggle('fa-eye-slash');
+    });
+  </script>
+<!-- Script principal del login (validaciones) -->
+  <script src="../js/login.js"></script>
+</body>
+</html>
