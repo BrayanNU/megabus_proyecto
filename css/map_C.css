@@ -1,0 +1,109 @@
+/* Colores y estilos reutilizables */
+:root {
+  --background-color: white;
+  --text-title-color: #053d4e;
+  --text-color: #323638;
+  --icon-color: #323638;
+  --icon-menu-color: #707780;
+  --menu-color: #707780;
+  --text-selected-color: #355cc0;
+  --background-selected: #e8ebf1;
+  --background-hover: #f7f9fa;
+  --border-color: #004fe2;
+}
+
+/* Fuente personalizada desde Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+
+/* Ajustes generales de márgenes, padding y fuente */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+}
+body {
+  width: 100%;
+  height: 100vh;
+}
+
+main {
+  margin-bottom: 4rem; /* espacio para el menú inferior */
+}
+
+/* Barra de navegación inferior estilo App */
+.menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .menu {
+    display: flex;
+    position: fixed;
+    left: 0;
+    width: 410px;
+    border-top: 3px solid var(--border-color);
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    background-color: #f2f5fa;
+    color: #101E42 !important;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .menu ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu li {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+  }
+
+  .menu a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+
+    font-size: 0.75rem;
+    color: #101E42 !important;
+  }
+
+  .menu a.selected {
+    color: var(--text-selected-color);
+  }
+
+  .menu img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  main {
+    margin-left: 0;
+    margin-bottom: 4rem;
+    height: 844px;
+    padding: 10px;
+  }
+  .content{
+    height: 736px;
+  }
+  #map {
+        width: 100%;
+        height: 50px;
+        border-radius: 10px;
+      }
+
+}

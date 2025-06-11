@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css"
+    />
+    <link type="text/css" rel="stylesheet" href="../css/tablas.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"
+    />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/asignar_rutas.css" />
+  </head>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script>
+    function showPage(pageNumber) {
+      const pages = document.querySelectorAll(".page");
+      pages.forEach((page) => page.classList.remove("active"));
+      document.getElementById("page" + pageNumber).classList.add("active");
+    }
+
+    $(document).ready(function () {
+      $("#example_1").DataTable();
+      $("#example_2").DataTable();
+      $("#example_3").DataTable();
+    });
+  </script>
+  <body>
+    <header>
+      <div class="left">
+        <div class="menu-container">
+          <div class="menu" id="menu">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="brand">
+          <img src="../img/bus.jpg" alt="icon-udemy" class="logo" />
+          <span class="name">MEGA BUS</span>
+        </div>
+      </div>
+      <div class="right">
+        <a href="../vista/asignar_rutas.html">
+          <img src="../icons/task-svgrepo-com (2).svg" />
+          <p>ASIGNAR RUTA</p>
+        </a>
+      </div>
+    </header>
+    <div class="sidebar" id="sidebar">
+      <nav>
+        <ul>
+          <li>
+            <a href="../vista/dashboard.html">
+              <img src="../icons/dashboard-svgrepo-com.svg" alt="" />
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/conductores.html" class="selected">
+              <img src="../icons/driving-test-svgrepo-com.svg" alt="" />
+              <span>Conductores</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/vehiculos.html">
+              <img src="../icons/bus-svgrepo-com.svg" alt="" />
+              <span>Vehículos</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/rutas.html">
+              <img src="../icons/route-svgrepo-com.svg" alt="" />
+              <span>Rutas</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/reportes.html">
+              <img src="../icons/report-pie-chart-8-svgrepo-com.svg" alt="" />
+              <span>Reportes</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/alertas.html">
+              <img src="../icons/alert-triangle-svgrepo-com.svg" alt="" />
+              <span>Aletas del Sistema</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/notificaciones.html">
+              <img src="../icons/notifications-alert-svgrepo-com.svg" alt="" />
+              <span>Notificaciones</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/usuarios.html">
+              <img src="../icons/users-svgrepo-com.svg" alt="" />
+              <span>usuarios</span>
+            </a>
+          </li>
+          <li>
+            <a href="../vista/login.html">
+              <img src="../icons/logout-3-svgrepo-com.svg" alt="" />
+              <span>Cerrar Sesion</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <main id="main">
+      <div class="formulario">
+        <h2>Asignación de Rutas</h2>
+        <form id="formAsigRuta" method="POST" novalidate>
+          <input type="hidden" name="accion" value="agregar" />
+
+          <label for="nombre">Conductor:</label>
+          <input type="text" id="nombre" name="nombre" />
+
+          <label for="vehiculo">vehiculo:</label>
+          <input type="text" id="placa" name="placa" />
+
+          <label for="ruta">Ruta:</label>
+          <input type="text" id="cod_ruta" name="cod_ruta" />
+
+          <label for="fecha_programada">Fecha Programada:</label>
+          <input type="date" id="fecha_programada" name="fecha_programada" />
+
+          <button type="submit">Asignar Ruta</button>
+        </form>
+      </div>
+      <div class="container_max">
+        <div class="pagination">
+          <button class="btn_option" onclick="showPage(1)">Conductores</button>
+          <button class="btn_option" onclick="showPage(2)">Vehículos</button>
+          <button class="btn_option" onclick="showPage(3)">Rutas</button>
+        </div>
+
+        <div id="page1" class="page active">
+          <div class="container-1">
+            <div class="row">
+              <div class="col-12">
+                <div class="data_table">
+                  <table id="example_1" class="display">
+                    <thead>
+                      <tr>
+                        <th>N°</th>
+                        <th>Dni</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Licencia</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Teléfono</th>
+                        <th>accion</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                      <tr>
+                        <th>N°</th>
+                        <th>Dni</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Licencia</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Teléfono</th>
+                        <th>accion</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="page2" class="page">
+          <div class="container-1">
+            <div class="row">
+              <div class="col-12">
+                <div class="data_table">
+                  <table id="example_2" class="display">
+                    <thead>
+                      <tr>
+                        <th>N°</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Tipo</th>
+                        <th>Pasajeros</th>
+                        <th>Velocidad Máxima</th>
+                        <th>Kilometraje</th>
+                        <th>Ult. mantenimiento</th>
+                        <th>Estado</th>
+                        <th>accion</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                      <tr>
+                        <th>N°</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Tipo</th>
+                        <th>Pasajeros</th>
+                        <th>Velocidad Máxima</th>
+                        <th>Kilometraje</th>
+                        <th>Ult. mantenimiento</th>
+                        <th>Estado</th>
+                        <th>accion</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="page3" class="page">
+          <div class="container-1">
+            <div class="row">
+              <div class="col-12">
+                <div class="data_table">
+                  <table id="example_3" class="display">
+                    <thead>
+                      <tr>
+                        <th>N°</th>
+                        <th>Nombre de la Ruta</th>
+                        <th>origen</th>
+                        <th>Destino</th>
+                        <th>Velocidad Maxima permitida</th>
+                        <th>Estado</th>
+                        <th>accion</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                      <tr>
+                        <th>N°</th>
+                        <th>Nombre de la Ruta</th>
+                        <th>origen</th>
+                        <th>Destino</th>
+                        <th>Velocidad Maxima permitida</th>
+                        <th>Estado</th>
+                        <th>accion</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+
+    <script src="../js/asignar_rutas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+body {
+  font-family: sans-serif;
+  background: #35405a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 1400px;
+  height: 650px;
+  text-align: justify;
+  z-index: 10;
+  display: flex;
+  border-radius: 30px;
+}
+
+.column2 {
+  padding: 15px;
+  width: 100%;
+}
+
+.rec_pass a {
+  text-decoration: none;
+  color: #081940;
+  font-weight: 600;
+}
+
+/*FORMULARIO*/
+#formRecuPass {
+  display: grid;
+}
+
+#formRecuPass input {
+  padding-top: 8px;
+  height: 40px;
+  border-radius: 20px;
+}
+#formRecuPass label {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+  transition: background-color 0.3s ease;
+  padding-top: 5px;
+  height: 40px;
+}
+select option {
+  padding: 10px;
+  font-size: 14px;
+}
+
+select:hover {
+  background-color: #e2e2e2;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+#formRecuPass button {
+  margin-top: 195px;
+  border-radius: 50px;
+  background-color: #101e42;
+  color: white;
+  height: 50px;
+}
+h1 {
+  font-size: 25px;
+}
+
+.bg-success {
+  background-color: #081940 !important;
+}
+.btn-success{
+--bs-btn-bg: #081940 !important;
+}
+@media screen and (max-width: 650px) {
+  .login-container {
+    display: flex;
+    border-radius: 40px;
+    height: 812px;
+  }
+  body {
+    padding: 15px;
+    height: 100%;
+    background: #35405a;
+  }
+
+  .column2 {
+    padding-top: 70px;
+    padding-bottom: 20px;
+  }
+}

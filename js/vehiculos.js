@@ -2,152 +2,265 @@ let dataTableInstance;
 let modoEdicion = false;
 let idVehiculoEditando = null;
 
+document.addEventListener("DOMContentLoaded", function () {
+  cargarVehiculos();
 
-document.addEventListener('DOMContentLoaded', function () {
-    cargarVehiculos();
+  const form = document.getElementById("formVehiculo");
 
-    const form = document.getElementById('formVehiculo');
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
+    this.classList.remove("was-validated");
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
+    // Validaciones personalizadas
+    const placa = form.placa.value.trim();
+    const marca = form.marca.value.trim();
+    const modelo = form.modelo.value.trim();
+    const anio = parseInt(form.ano.value);
+    const tipo = form.tipo_bus.value;
+    const pasajeros = parseInt(form.num_pasajeros.value);
+    const velocidad = parseInt(form.max_velocidad.value);
+    const kilometraje = parseFloat(form.kilometraje.value);
+    const mantenimiento = form.ult_mantenimiento.value;
+    const estado = form.estado.value;
 
-        // Validación del formulario
-        if (!this.checkValidity()) {
-            this.classList.add("was-validated");
-            return;
-        }
+    let valid = true;
+    let mensajes = [];
 
-        const formData = new FormData(this);
-        if (modoEdicion && idVehiculoEditando !== null) {
-            formData.append('accion', 'editar');
-            formData.append('id_vehiculo', idVehiculoEditando);
-        } else {
-            formData.append('accion', 'agregar');
-        }
-        
-        // Enviar datos al servidor
-        fetch('/megabus_proyecto/php/vehiculos.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(res => {
-            if (res.success) {
-                this.reset();
-                this.classList.remove("was-validated");
-                cargarVehiculos();
-                modoEdicion = false;
-                idVehiculoEditando = null;
-            } else {
-                console.error("Error al guardar: " + res.error);
-            }
-        })
-        .catch(error => {
-            console.error("Error al registrar vehiculo:", error);
-            alert("Error al registrar vehiculo");
+    // Verificar si todos los campos están vacíos
+    const allEmpty =
+      placa === "" &&
+      marca === "" &&
+      modelo === "" &&
+      isNaN(anio) &&
+      tipo === "" &&
+      isNaN(pasajeros) &&
+      isNaN(velocidad) &&
+      isNaN(kilometraje) &&
+      mantenimiento === "" &&
+      estado === "";
+
+    if (allEmpty) {
+      Swal.fire({
+        icon: "warning",
+        title: "Formulario vacío",
+        text: "No se puede enviar el formulario vacío. Por favor, complete los campos requeridos.",
+      });
+      return;
+    }
+
+    // Validación de placa (formato XYZ678)
+    const placaRegex = /^[A-Z]{3}[0-9]{3}$/;
+    if (!placaRegex.test(placa)) {
+      valid = false;
+      mensajes.push("La placa debe tener el formato ABC123, sin guión");
+    }
+
+    // Validación de marca (solo letras y espacios)
+    const marcaRegex = /^[A-Za-zÁÉÍÓÚÑáéíóúñ\s]{2,30}$/;
+    if (!marcaRegex.test(marca)) {
+      valid = false;
+      mensajes.push(
+        "La marca solo debe contener letras y espacios, sin números ni símbolos."
+      );
+    }
+
+    const modeloRegex = /^[A-Za-z0-9\s]{2,30}$/;
+    if (!modeloRegex.test(modelo)) {
+      valid = false;
+      mensajes.push(
+        "El modelo no debe estar vacío y solo debe contener letras, números y espacios."
+      );
+    }
+
+    // Año entre 1900 y 2099
+    if (isNaN(anio) || anio < 1900 || anio > 2099) {
+      valid = false;
+      mensajes.push("Ingrese un año válido entre 1900 y 2099.");
+    }
+
+    // Tipo de bus
+    if (!tipo) {
+      valid = false;
+      mensajes.push("Seleccione un tipo de bus.");
+    }
+
+    // Estado
+    if (!estado) {
+      valid = false;
+      mensajes.push("Seleccione un estado del vehículo.");
+    }
+
+    // Números positivos
+    if (isNaN(pasajeros) || pasajeros <= 0 || pasajeros >60) {
+      valid = false;
+      mensajes.push("El número de pasajeros debe ser un valor positivo, MAX 60");
+    }
+
+    if (isNaN(velocidad) || velocidad <= 0) {
+      valid = false;
+      mensajes.push("La velocidad máxima debe ser un valor positivo.");
+    }
+
+    if (isNaN(kilometraje) || kilometraje < 0) {
+      valid = false;
+      mensajes.push("El kilometraje debe ser un número válido.");
+    }
+
+    // Fecha de mantenimiento no vacía
+    if (!mantenimiento) {
+      valid = false;
+      mensajes.push("Seleccione la fecha del último mantenimiento.");
+    }
+
+    // Mostrar errores
+    if (!valid) {
+      if (mensajes.length > 4) {
+        Swal.fire({
+          icon: "error",
+          title: "Errores en el formulario",
+          text: "El formulario contiene varios errores. Por favor, revise los campos obligatorios.",
         });
-    });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Errores en el formulario",
+          html: mensajes.join("<br>"),
+        });
+      }
+      return;
+    }
+
+    const formData = new FormData(this);
+    if (modoEdicion && idVehiculoEditando !== null) {
+      formData.append("accion", "editar");
+      formData.append("id_vehiculo", idVehiculoEditando);
+    } else {
+      formData.append("accion", "agregar");
+    }
+
+    // Enviar datos al servidor
+    fetch("/megabus_proyecto/php/vehiculos.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success) {
+          this.reset();
+          cargarVehiculos();
+          modoEdicion = false;
+          idVehiculoEditando = null;
+          Swal.fire("Éxito", "Vehículo guardado correctamente.", "success");
+        } else {
+          Swal.fire("Error", "No se pudo guardar el vehículo.", "error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al registrar vehiculo:", error);
+        Swal.fire("Error", "Error al registrar vehículo", "error");
+      });
+  });
 });
 
-
 function cargarVehiculos() {
-    fetch('/megabus_proyecto/php/vehiculos.php')
-     .then(response => response.json())
-    .then(data => {
-        console.log("Respuesta del servidor:", data); // Agrega esto
-        if (!Array.isArray(data)) {
-            throw new Error("La respuesta no es un array");
-        }
+  fetch("/megabus_proyecto/php/vehiculos.php")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Respuesta del servidor:", data); // Agrega esto
+      if (!Array.isArray(data)) {
+        throw new Error("La respuesta no es un array");
+      }
 
-        const tbody = document.querySelector('#example tbody');
-        tbody.innerHTML = ''; // Limpiar contenido previo
+      const tbody = document.querySelector("#example tbody");
+      tbody.innerHTML = ""; // Limpiar contenido previo
 
-        // Limpiar los datos de la tabla sin destruir la instancia
-        if (dataTableInstance) {
-            dataTableInstance.clear();
-        }
-        // Llenar la tabla con los conductores
-        data.forEach((vehiculo, index) => {
-
-         dataTableInstance.row.add([
-            index + 1,
-            vehiculo.placa,
-            vehiculo.marca,
-            vehiculo.modelo,
-            vehiculo.ano,
-            vehiculo.tipo_bus,
-            vehiculo.num_pasajeros,
-            vehiculo.max_velocidad,
-            vehiculo.kilometraje,
-            vehiculo.ult_mantenimiento,
-            vehiculo.estado,
-              `
+      // Limpiar los datos de la tabla sin destruir la instancia
+      if (dataTableInstance) {
+        dataTableInstance.clear();
+      }
+      // Llenar la tabla con los conductores
+      data.forEach((vehiculo, index) => {
+        dataTableInstance.row.add([
+          index + 1,
+          vehiculo.placa,
+          vehiculo.marca,
+          vehiculo.modelo,
+          vehiculo.ano,
+          vehiculo.tipo_bus,
+          vehiculo.num_pasajeros,
+          vehiculo.max_velocidad,
+          vehiculo.kilometraje,
+          vehiculo.ult_mantenimiento,
+          vehiculo.estado,
+          `
                 <button class="btn btn-warning btn-sm me-2" onclick="editarVehiculo(${vehiculo.id_vehiculo})">Editar</button>
                 <button class="btn btn-danger btn-sm" onclick="eliminarVehiculo(${vehiculo.id_vehiculo})">Eliminar</button>
-             `
-            ]);
-        });
+             `,
+        ]);
+      });
 
-        // Redibujar la tabla
-        dataTableInstance.draw();
+      // Redibujar la tabla
+      dataTableInstance.draw();
     })
-    .catch(error => console.error('Error al cargar los datos:', error));
+    .catch((error) => console.error("Error al cargar los datos:", error));
 }
 
 // Inicialización de la DataTable fuera de la función cargarUsuarios()
-document.addEventListener('DOMContentLoaded', function() {
-    dataTableInstance = new DataTable('#example', {
-        pageLength: 4,
-        layout: {
-            topStart: {
-                buttons: ['copy', 'excel', 'pdf', 'colvis']
-            }
-        }
-    });
+document.addEventListener("DOMContentLoaded", function () {
+  dataTableInstance = new DataTable("#example", {
+    pageLength: 4,
+    layout: {
+      topStart: {
+        buttons: ["copy", "excel", "pdf", "colvis"],
+      },
+    },
+  });
 });
 
-
 function eliminarVehiculo(id) {
-    if (!confirm('¿Eliminar este vehiculo?')) return;
+  if (!confirm("¿Eliminar este vehiculo?")) return;
 
-    const formData = new FormData();
-    formData.append('accion', 'eliminar');
-    formData.append('id', id);
+  const formData = new FormData();
+  formData.append("accion", "eliminar");
+  formData.append("id", id);
 
-    fetch('/megabus_proyecto/php/vehiculos.php', {
-        method: 'POST',
-        body: formData
+  fetch("/megabus_proyecto/php/vehiculos.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((r) => r.json())
+    .then((res) => {
+      if (res.success) {
+        cargarVehiculos();
+      } else {
+        alert("Error al eliminar: " + res.error);
+      }
     })
-    .then(r => r.json())
-    .then(res => {
-        if (res.success) {
-            cargarVehiculos();
-        } else {
-            alert("Error al eliminar: " + res.error);
-        }
-    })
-    .catch(error => console.error("Error al eliminar vehiculo:", error));
+    .catch((error) => console.error("Error al eliminar vehiculo:", error));
 }
 
 function editarVehiculo(id) {
-    fetch(`/megabus_proyecto/php/vehiculos.php?id=${id}`)
-    .then(response => response.json())
-    .then(data => {
-        const vehiculo = data;
-        document.getElementById('placa').value = vehiculo.placa;
-        document.getElementById('marca').value = vehiculo.marca;
-        document.getElementById('modelo').value = vehiculo.modelo;
-        document.getElementById('ano').value = vehiculo.ano;
-        document.getElementById('tipo_bus').value = vehiculo.tipo_bus;
-        document.getElementById('num_pasajeros').value = vehiculo.num_pasajeros;
-        document.getElementById('max_velocidad').value = vehiculo.max_velocidad;
-        document.getElementById('kilometraje').value = vehiculo.kilometraje;
-        document.getElementById('ult_mantenimiento').value = vehiculo.ult_mantenimiento;
-        document.getElementById('estado').value = vehiculo.estado;
+  fetch(`/megabus_proyecto/php/vehiculos.php?id=${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const vehiculo = data;
+      document.getElementById("placa").value = vehiculo.placa;
+      document.getElementById("marca").value = vehiculo.marca;
+      document.getElementById("modelo").value = vehiculo.modelo;
+      document.getElementById("ano").value = vehiculo.ano;
+      document.getElementById("tipo_bus").value = vehiculo.tipo_bus;
+      document.getElementById("num_pasajeros").value = vehiculo.num_pasajeros;
+      document.getElementById("max_velocidad").value = vehiculo.max_velocidad;
+      document.getElementById("kilometraje").value = vehiculo.kilometraje;
+      document.getElementById("ult_mantenimiento").value =
+        vehiculo.ult_mantenimiento;
+      document.getElementById("estado").value = vehiculo.estado;
 
-        modoEdicion = true;
-        idVehiculoEditando = id;
+      modoEdicion = true;
+      idVehiculoEditando = id;
     })
-    .catch(error => console.error("Error al cargar datos para editar:", error));
+    .catch((error) =>
+      console.error("Error al cargar datos para editar:", error)
+    );
 }

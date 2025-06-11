@@ -88,29 +88,43 @@ header {
   justify-content: center;
   align-items: center;
   gap: 1.6rem;
+  background-color: #081940;
+  border-radius: 20px;
+  width: 155px;
+  height: 40px;
 }
+
 .right a {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  border-radius: 0.5rem;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: white;
+  padding: 0;
+  height: 100%; 
 }
-.right a:hover {
-  background-color: var(--background-hover);
-}
+
 .right img {
   width: 1.5rem;
-  margin: 0.5rem;
+  margin: 0; 
+  display: block; 
 }
 .right .user {
   width: 2.1rem;
   border-radius: 50%;
 }
+.right p{
+  margin-top: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
+  
 
 /* Menú lateral */
 .sidebar {
   margin-top: 4rem;
-  width: 4rem;
+  width: 18.75rem;
   height: 100%;
   position: fixed;
   top: 0;
@@ -125,7 +139,7 @@ header {
 
 /* Ancho cuando el menú se expande */
 .sidebar.menu-toggle {
-  width: 18.75rem;
+  width: 4rem;
 }
 .sidebar a {
   display: flex;
@@ -163,17 +177,127 @@ header {
   content: none; /* Elimina el ::marker pseudo-element */
 }
 
+
 /* Contenido principal */
+#main h2 {
+  font-size: 30px;
+}
 main {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row; /* elementos en fila */
+  gap: 0; /* sin espacio entre ellos */
+  height: calc(100vh - 4rem);
   margin-top: 4rem;
-  margin-left: 4rem;
+  margin-left: 18.75rem;
   padding: 2rem;
   transition: padding-left 0.5s ease;
+  background-color: #f2f5fa;
 }
 main.menu-toggle {
-  margin-left: 18.75rem;
+  margin-left: 4rem;
 }
 
+main .container {
+  width: 80%;
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+
+main .content_general{
+  width: 100%;
+  border-radius: 15px;
+}
+main .block_1 {
+  width: 100%;
+  height: 140px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+main .block_2 {
+  width: 100%;
+  height: 350px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+main .block_3 {
+  width: 100%;
+  height: 225px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sub{
+  height: 100%;
+  width: 350px;
+  background-color:white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+  display: flex;
+  padding: 35px;
+}
+.med_a{
+  width: 1145px;
+  height: 100%;
+  background-color:white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+}
+.med_b{
+  width: 350px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+}
+.foot_a{
+  width: 750px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+}
+.foot_b{
+  width: 350px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+}
+.foot_c{
+  width: 350px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+}
+.bad img{
+  width: 100%;
+  height: 100%;
+}
+.bad{
+  width: 30%;
+  height: 100%;
+}
+.tap{
+  width: 70%;
+  height: 100%;
+  text-align: center;
+}
+.tap .dat{
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.tap .info{
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0;
+}
 /* Responsive movil*/
 @media (max-width: 500px) {
   .right .icons-header {

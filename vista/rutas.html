@@ -3,17 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css"
-    />
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css"/>
     <link type="text/css" rel="stylesheet" href="../css/tablas.css" />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"
-    />
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"/>
     <title>Dashboard</title>
     <link rel="stylesheet" href="../css/rutas.css" />
   </head>
@@ -33,16 +25,10 @@
         </div>
       </div>
       <div class="right">
-        <a href="#" class="icons-header">
-          <img src="../icons/chat.svg" alt="chat" />
+        <a href="../vista/asignar_rutas.html">
+          <img src="../icons/task-svgrepo-com (2).svg" />
+          <p>ASIGNAR RUTA</p>
         </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/preguntas.svg" alt="question" />
-        </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/notificacion.svg" alt="notification" />
-        </a>
-        <img src="../img/autobus.png" alt="img-bus" class="" />
       </div>
     </header>
     <div class="sidebar" id="sidebar">
@@ -108,7 +94,7 @@
     <main id="main">
       <div class="formulario">
         <h2>Registro de Rutas</h2>
-        <form id="formRuta" method="POST">
+        <form id="formRuta" method="POST" novalidate>
           <input type="hidden" name="accion" value="agregar" />
 
           <label for="origen">Punto de origen:</label>
@@ -176,11 +162,11 @@
           </select>
 
             <label for="cod_ruta">Nombre de ruta:</label>
-          <input type="text" id="cod_ruta" name="cod_ruta" required />
+          <input type="text" id="cod_ruta" name="cod_ruta" required readonly/>
 
 
           <label for="vel_max">Velocidad máxima permitida (km/h):</label>
-          <input type="text" id="vel_max" name="vel_max" min="0" required />
+          <input type="text" id="vel_max" name="vel_max" required />
 
           <label for="estado">Estado:</label>
           <select id="estado" name="estado">

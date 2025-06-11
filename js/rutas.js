@@ -43,11 +43,70 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Validación del formulario
-    if (!this.checkValidity()) {
-      this.classList.add("was-validated");
-      return;
-    }
+     this.classList.remove("was-validated");
+
+  const origen = document.getElementById("origen").value.trim();
+  const destino = document.getElementById("destino").value.trim();
+  const codRuta = document.getElementById("cod_ruta").value.trim();
+  const estado = document.getElementById("estado").value.trim();
+
+  let valid = true;
+  let mensajes = [];
+
+  let velMaxInput = document.getElementById("vel_max").value.trim();
+  velMaxInput = velMaxInput.replace(/[^\d.]/g, '');
+  const velMax = parseFloat(velMaxInput);
+
+
+  const allEmpty =
+    origen === "" &&
+    destino === "" &&
+    codRuta === "" &&
+    velMaxInput === "" &&
+    estado === "";
+
+  if (allEmpty) {
+    Swal.fire({
+      icon: "warning",
+      title: "Formulario vacío",
+      text: "No se puede enviar el formulario vacío. Por favor, complete los campos requeridos.",
+    });
+    return;
+  }
+
+  if (origen === "") {
+    valid = false;
+    mensajes.push("Seleccione el punto de origen.");
+  }
+
+  if (destino === "") {
+    valid = false;
+    mensajes.push("Seleccione el punto de destino.");
+  }
+
+  if (codRuta === "") {
+    valid = false;
+    mensajes.push("Ingrese el nombre de la ruta.");
+  }
+
+  if (isNaN(velMax) || velMax <= 0) {
+  valid = false;
+  mensajes.push("Ingrese una velocidad máxima válida (número mayor a 0).");
+}
+
+  if (estado === "") {
+    valid = false;
+    mensajes.push("Seleccione el estado de la ruta.");
+  }
+
+  if (!valid) {
+    Swal.fire({
+      icon: "error",
+      title: "Errores en el formulario",
+      html: mensajes.join("<br>"),
+    });
+    return;
+  }
 
     const formData = new FormData(this);
     if (modoEdicion && idRutaEditando !== null) {
@@ -70,13 +129,14 @@ document.addEventListener("DOMContentLoaded", function () {
           cargarRutas();
           modoEdicion = false;
           idRutaEditando = null;
+          Swal.fire("Éxito", "Ruta guardado correctamente.", "success");
         } else {
-          console.error("Error al guardar: " + res.error);
+          Swal.fire("Error", "No se pudo guardar la ruta.", "error");
         }
       })
       .catch((error) => {
         console.error("Error al registrar ruta:", error);
-        alert("Error al registrar ruta");
+        Swal.fire("Error", "Error al registrar la ruta", "error");
       });
   });
 });
@@ -154,7 +214,7 @@ function eliminarRuta(id) {
 }
 
 function editarRuta(id) {
-  fetch(`/megabus_proyecto/rutas.php?id=${id}`)
+  fetch(`/megabus_proyecto/php/rutas.php?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
       const ruta = data;

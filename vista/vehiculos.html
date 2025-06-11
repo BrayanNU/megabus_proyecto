@@ -33,16 +33,10 @@
         </div>
       </div>
       <div class="right">
-        <a href="#" class="icons-header">
-          <img src="../icons/chat.svg" alt="chat" />
+        <a href="../vista/asignar_rutas.html">
+          <img src="../icons/task-svgrepo-com (2).svg" />
+          <p>ASIGNAR RUTA</p>
         </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/preguntas.svg" alt="question" />
-        </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/notificacion.svg" alt="notification" />
-        </a>
-        <img src="../img/autobus.png" alt="img-bus" class="" />
       </div>
     </header>
     <div class="sidebar" id="sidebar">
@@ -108,7 +102,7 @@
     <main id="main">
       <div class="formulario">
         <h2>Registro de vehiculos</h2>
-        <form id="formVehiculo" method="POST">
+        <form id="formVehiculo" method="POST" novalidate>
           <input type="hidden" name="accion" value="agregar" />
 
           <label for="placa">Placa:</label>
@@ -141,16 +135,22 @@
           <label for="km">Kilometraje:</label>
           <input type="number" step="0.1" id="kilometraje" name="kilometraje" />
 
-          <label for="mant_ant">Último mantenimiento:</label>
+          <div class="reducir">
+          <div class="reducir_a">
+            <label for="mant_ant">Últ. mantenimiento:</label>
           <input type="date" id="ult_mantenimiento" name="ult_mantenimiento" />
+          </div>
 
-          <label for="estado">Estado:</label>
+          <div class="reducir_b">
+            <label for="estado">Estado:</label>
           <select id="estado" name="estado">
             <option value="">Seleccionar</option>
             <option value="Activo">Activo</option>
             <option value="Mantenimiento">Mantenimiento</option>
             <option value="Inactivo">Inactivo</option>
           </select>
+          </div>
+          </div>
 
           <button type="submit">Guardar</button>
         </form>

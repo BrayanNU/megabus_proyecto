@@ -83,97 +83,134 @@
   }
   
   
-  /* Contenedor de los íconos del lado derecho */
-  .right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.6rem;
-  }
-  .right a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-  }
-  .right a:hover {
-    background-color: var(--background-hover);
-  }
-  .right img {
-    width: 1.5rem;
-    margin: 0.5rem;
-  }
-  .right .user {
-    width: 2.1rem;
-    border-radius: 50%;
-  }
+/* Contenedor de los íconos del lado derecho */
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+  background-color: #081940;
+  border-radius: 20px;
+  width: 155px;
+  height: 40px;
+}
+
+.right a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: white;
+  padding: 0;
+  height: 100%; 
+}
+
+.right img {
+  width: 1.5rem;
+  margin: 0; 
+  display: block; 
+}
+.right .user {
+  width: 2.1rem;
+  border-radius: 50%;
+}
+.right p{
+  margin-top: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
   
-    /* Menú lateral */
-  .sidebar {
-    margin-top: 4rem;
-    width: 4rem;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    padding: 1.1rem 0;
-    border-right: 1px solid var(--border-color);
-    overflow-y: auto;
-    background-color: var(--background-color);
-    transition: width 0.5s ease;
-  }
-  
-  /* Ancho cuando el menú se expande */
-  .sidebar.menu-toggle {
-    width: 18.75rem;
-  }
-  .sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 1.3rem;
-    padding: 0.9rem 0.7rem;
-    text-decoration: none;
-    margin: 0 0.5rem;
-    border-radius: 0.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    color: var(--text-color);
-  }
-  .sidebar a:hover {
-    background-color: var(--background-hover);
-  }
-  .sidebar a.selected {
-    color: var(--text-selected-color);
-    background-color: var(--background-selected);
-    padding: 1rem 0.7rem;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 0.2rem;
-  }
-  .sidebar img {
-    width: 1.6rem;
-  }
-  
-  .sidebar ul {
-    list-style: none; 
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar li::marker {
-    content: none; 
-  }
-  
-    /* Contenido principal */
-  main {
-    margin-top: 4rem;
-    margin-left: 4rem;
-    padding: 2rem;
-    transition: padding-left 0.5s ease;
-  }
-  main.menu-toggle {
-    margin-left: 18.75rem;
-  }
+    
+/* Menú lateral */
+.sidebar {
+  margin-top: 4rem;
+  width: 18.75rem;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 1.1rem 0;
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  background-color: var(--background-color);
+  transition: width 0.5s ease;
+}
+
+/* Ancho cuando el menú se expande */
+.sidebar.menu-toggle {
+  width: 4rem;
+}
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  padding: 0.9rem 0.7rem;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--text-color);
+}
+.sidebar a:hover {
+  background-color: var(--background-hover);
+}
+.sidebar a.selected {
+  color: var(--text-selected-color);
+  background-color: var(--background-selected);
+  padding: 1rem 0.7rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 0.2rem;
+}
+.sidebar img {
+  width: 1.6rem;
+}
+
+.sidebar ul {
+  list-style: none; /* Elimina los bullets */
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li::marker {
+  content: none; /* Elimina el ::marker pseudo-element */
+}
+
+/* Contenido principal */
+#main h2 {
+  font-size: 30px;
+}
+main {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row; /* elementos en fila */
+  gap: 0; /* sin espacio entre ellos */
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+  margin-left: 18.75rem;
+  padding: 2rem;
+  transition: padding-left 0.5s ease;
+  background-color: #f2f5fa;
+}
+main.menu-toggle {
+  margin-left: 4rem;
+}
+
+main .formulario {
+  margin-right: 18px;
+  width: 20%;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+main .container {
+  width: 80%;
+  background-color: #ffffff;
+  border-radius: 15px;
+}
   
   /* Responsive movil*/
   @media (max-width: 500px) {

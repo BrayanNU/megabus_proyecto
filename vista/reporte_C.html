@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/reporte_C.css" />
+  </head>
+  <body>
+    <main id="main">
+      <div class="content">
+        <div class="head">
+          Reportes
+        </div>
+        <div class="report">
+          <form id="formReporte" enctype="multipart/form-data" novalidate>
+          <label for="tipo_reporte">Tipo de Reporte:</label>
+          <select name="tipo_reporte" id="tipo_reporte" required>
+            <option value="">Selecciona una opción</option>
+            <option value="Vehiculo averiado">Vehículo averiado</option>
+            <option value="Problema con el pasajeros">Problema con el pasajeros</option>
+            <option value="Ruta bloqueada">Ruta bloqueada</option>
+            <option value="Clima">Clima</option>
+            <option value="Otro">Otro</option>
+          </select>
+
+          <label for="descripcion">Descripción:</label>
+          <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe el problema..." required></textarea>
+
+          <label for="foto">Foto:</label>
+          <input type="file" id="foto" name="foto" accept="image/*">
+
+          <button type="submit">Enviar</button>
+        </form>
+        </div>
+      </div>
+      <div class="menu">
+        <nav>
+          <ul>
+            <li>
+              <a href="../vista/rutas_C.html" class="selected">
+                <img src="../icons/route-svgrepo-com.svg" alt="" />
+                <span>Rutas</span>
+              </a>
+            </li>
+            <li>
+              <a href="../vista/reporte_C.html">
+                <img src="../icons/report-svgrepo-com (1).svg" alt="" />
+                <span>Reportar</span>
+              </a>
+            </li>
+            <li>
+              <a href="../vista/historial_C.html">
+                <img src="../icons/history-2-svgrepo-com.svg" alt="" />
+                <span>Historial</span>
+              </a>
+            </li>
+            <li>
+              <a href="../vista/alertas_C.html">
+                <img src="../icons/alert-triangle-svgrepo-com.svg" alt="" />
+                <span>Alertas</span>
+              </a>
+            </li>
+            <li>
+              <a href="../vista/notificaciones_C.html">
+                <img src="../icons/notifications-alert-svgrepo-com.svg" alt="" />
+                <span>Notificaciones</span>
+              </a>
+            </li>
+            <li>
+              <a href="../vista/login.html">
+                <img src="../icons/logout-3-svgrepo-com.svg" alt="" />
+                <span>Cerrar Sesion
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </main>
+    <script src="../js/reporte_C.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

@@ -33,16 +33,10 @@
         </div>
       </div>
       <div class="right">
-        <a href="#" class="icons-header">
-          <img src="../icons/chat.svg" alt="chat" />
+        <a href="../vista/asignar_rutas.html">
+          <img src="../icons/task-svgrepo-com (2).svg" />
+          <p>ASIGNAR RUTA</p>
         </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/preguntas.svg" alt="question" />
-        </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/notificacion.svg" alt="notification" />
-        </a>
-        <img src="../img/autobus.png" alt="img-bus" class="" />
       </div>
     </header>
     <div class="sidebar" id="sidebar">
@@ -108,7 +102,7 @@
     <main id="main">
       <div class="formulario">
         <h2>Registro de Usuario</h2>
-        <form id="formUsuario" method="POST">
+        <form id="formUsuario" method="POST" novalidate>
           <input type="hidden" name="accion" value="agregar">
 
           <label for="nombre">Nombre:</label>
@@ -193,5 +187,6 @@
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
 
     <script src="../js/usuarios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

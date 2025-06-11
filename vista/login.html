@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Megabus</title>
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -14,15 +15,16 @@
     <div class="column2">
       <h1>Login</h1>
 <!-- Formulario de inicio de sesión -->
-      <form id="loginForm" class="loginform">
+      <form id="loginForm" class="loginform" novalidate>
         <div class="input-group">
           <label for="correo">Correo:</label>
           <div style="position: relative;">
-          <input type="email" id="correo" name="correo" />
+          <input type="email" id="correo" name="correo"/>
           <i class="fa-solid fa-user" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></i>
           <hr>
         </div>
         </div>
+        <p id="emailError" class="error-msg"></p>
         <div class="input-group">
           <label for="contrasena">Contraseña:</label>
           <div style="position: relative;">
@@ -34,6 +36,9 @@
         <button type="submit">Ingresar</button>
         <p id="loginError" class="error-msg"></p>
       </form>
+      <div class="rec_pass">
+        <a href="../vista/recuperarPassword.html">¿Olvidaste tu Contraseña?</a>
+      </div>
     </div>
   </div>
   <!-- Script para mostrar u ocultar la contraseña -->
@@ -48,7 +53,7 @@
       this.classList.toggle('fa-eye-slash');
     });
   </script>
-<!-- Script principal del login (validaciones) -->
+<!-- Script de validaciones -->
   <script src="../js/login.js"></script>
 </body>
 </html>

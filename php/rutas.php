@@ -134,7 +134,7 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
 }
 
 
-// Eliminar un conductor
+// Eliminar Ruta
 elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     $id = $_POST['id'] ?? '';
 

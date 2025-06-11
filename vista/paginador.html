@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paginador Simple</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+        text-align: center;
+      }
+      .page {
+        display: none;
+        width: 80%;
+        background-color: #ffffff;
+        border-radius: 15px;
+      }
+      .page.active {
+        display: block;
+      }
+      .pagination {
+        margin-top: 20px;
+      }
+      .pagination button {
+        margin: 0 5px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ejemplo de Paginador</h1>
+
+    <!-- Contenido de las páginas -->
+    <div id="page1" class="page active">Página 1: Bienvenido</div>
+    <div id="page2" class="page">
+      Página 2: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Aliquid, facere at cum quisquam voluptatem amet? Consequatur molestias
+      similique repellat ea, at molestiae quis maiores, consectetur fugiat
+      incidunt laborum. Quaerat, tempora?
+    </div>
+    <div id="page3" class="page">Página 3: Contacto</div>
+
+    <!-- Controles del paginador -->
+    <div class="pagination">
+      <button onclick="showPage(1)">1</button>
+      <button onclick="showPage(2)">2</button>
+      <button onclick="showPage(3)">3</button>
+    </div>
+
+    <script>
+      function showPage(pageNumber) {
+        const pages = document.querySelectorAll(".page");
+        pages.forEach((page) => page.classList.remove("active"));
+        document.getElementById("page" + pageNumber).classList.add("active");
+      }
+    </script>
+  </body>
+</html>

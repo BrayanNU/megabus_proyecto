@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/tablas.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"/>
+    
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/alertas.css" />
   </head>
   <body>
        <!-- Encabezado-->
@@ -24,16 +28,10 @@
         </div>
       </div>
       <div class="right">
-        <a href="#" class="icons-header">
-          <img src="../icons/chat.svg" alt="chat" />
+        <a href="../vista/asignar_rutas.html">
+          <img src="../icons/task-svgrepo-com (2).svg" />
+          <p>ASIGNAR RUTA</p>
         </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/preguntas.svg" alt="question" />
-        </a>
-        <a href="#" class="icons-header">
-          <img src="../icons/notificacion.svg" alt="notification" />
-        </a>
-        <img src="../img/autobus.png" alt="img-bus" class="" />
       </div>
     </header>
           <!-- Menú lateral de navegación -->
@@ -99,8 +97,143 @@
     </div>
           <!-- Contenido principal -->
     <main id="main">
-        <p>Mantenimiento...</p>
+              <div class="formulario">
+        <h2>Registro de Rutas</h2>
+        <form id="formRuta" method="POST" novalidate>
+          <input type="hidden" name="accion" value="agregar" />
+
+          <label for="origen">Punto de origen:</label>
+          <select id="origen" name="origen">
+            <option value="">Seleccionar</option>
+            <option value="Lima">Lima</option>
+            <option value="Arequipa">Arequipa</option>
+            <option value="Cusco">Cusco</option>
+            <option value="Áncash">Áncash</option>
+            <option value="Apurímac">Apurímac</option>
+            <option value="Arequipa">Arequipa</option>
+            <option value="Ayacucho">Ayacucho</option>
+            <option value="Cajamarca">Cajamarca</option>
+            <option value="Callao">Callao</option>
+            <option value="Cusco">Cusco</option>
+            <option value="Huancavelica">Huancavelica</option>
+            <option value="Huánuco">Huánuco</option>
+            <option value="Ica">Ica</option>
+            <option value="Junín">Junín</option>
+            <option value="La Libertad">La Libertad</option>
+            <option value="Lambayeque">Lambayeque</option>
+            <option value="Lima">Lima</option>
+            <option value="Loreto">Loreto</option>
+            <option value="Madre de Dios">Madre de Dios</option>
+            <option value="Moquegua">Moquegua</option>
+            <option value="Pasco">Pasco</option>
+            <option value="Piura">Piura</option>
+            <option value="Puno">Puno</option>
+            <option value="San Martín">San Martín</option>
+            <option value="Tacna">Tacna</option>
+            <option value="Tumbes">Tumbes</option>
+            <option value="Ucayali">Ucayali</option>
+          </select>
+
+          <label for="destino">Punto de destino:</label>
+          <select id="destino" name="destino">
+            <option value="">Seleccionar</option>
+            <option value="Lima">Lima</option>
+            <option value="Arequipa">Arequipa</option>
+            <option value="Cusco">Cusco</option>
+            <option value="Áncash">Áncash</option>
+            <option value="Apurímac">Apurímac</option>
+            <option value="Arequipa">Arequipa</option>
+            <option value="Ayacucho">Ayacucho</option>
+            <option value="Cajamarca">Cajamarca</option>
+            <option value="Callao">Callao</option>
+            <option value="Cusco">Cusco</option>
+            <option value="Huancavelica">Huancavelica</option>
+            <option value="Huánuco">Huánuco</option>
+            <option value="Ica">Ica</option>
+            <option value="Junín">Junín</option>
+            <option value="La Libertad">La Libertad</option>
+            <option value="Lambayeque">Lambayeque</option>
+            <option value="Lima">Lima</option>
+            <option value="Loreto">Loreto</option>
+            <option value="Madre de Dios">Madre de Dios</option>
+            <option value="Moquegua">Moquegua</option>
+            <option value="Pasco">Pasco</option>
+            <option value="Piura">Piura</option>
+            <option value="Puno">Puno</option>
+            <option value="San Martín">San Martín</option>
+            <option value="Tacna">Tacna</option>
+            <option value="Tumbes">Tumbes</option>
+            <option value="Ucayali">Ucayali</option>
+          </select>
+
+            <label for="cod_ruta">Nombre de ruta:</label>
+          <input type="text" id="cod_ruta" name="cod_ruta" required readonly/>
+
+
+          <label for="vel_max">Velocidad máxima permitida (km/h):</label>
+          <input type="text" id="vel_max" name="vel_max" required />
+
+          <label for="estado">Estado:</label>
+          <select id="estado" name="estado">
+            <option value="">-- Seleccionar --</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="data_table">
+              <table id="example" class="display">
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Nombre de la Ruta</th>
+                    <th>origen</th>
+                    <th>Destino</th>
+                    <th>Velocidad Maxima permitida</th>
+                    <th>Estado</th>
+                    <th>accion</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th>N°</th>
+                    <th>Nombre de la Ruta</th>
+                    <th>origen</th>
+                    <th>Destino</th>
+                    <th>Velocidad Maxima permitida</th>
+                    <th>Estado</th>
+                    <th>accion</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
+    <script src="../js/sidebar.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+
+    <script src="../js/alerta.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Script para abrir/cerrar el menú -->
     <script src="../js/sidebar.js"></script>
   </body>

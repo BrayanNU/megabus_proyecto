@@ -1,0 +1,198 @@
+/* Colores y estilos reutilizables */
+:root {
+  --background-color: white;
+  --text-title-color: #053d4e;
+  --text-color: #323638;
+  --icon-color: #323638;
+  --icon-menu-color: #707780;
+  --menu-color: #707780;
+  --text-selected-color: #355cc0;
+  --background-selected: #e8ebf1;
+  --background-hover: #f7f9fa;
+  --border-color: #004fe2;
+}
+
+/* Fuente personalizada desde Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+
+/* Ajustes generales de márgenes, padding y fuente */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+}
+body {
+  width: 100%;
+  height: 100vh;
+}
+
+main {
+  margin-bottom: 4rem; /* espacio para el menú inferior */
+}
+
+/* Barra de navegación inferior estilo App */
+.menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .menu {
+    display: flex;
+    position: fixed;
+    left: 0;
+    width: 410px;
+    border-top: 3px solid var(--border-color);
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    background-color: #f2f5fa;
+    color: #101e42 !important;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .menu ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu li {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+  }
+
+  .menu a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+
+    font-size: 0.75rem;
+    color: #101e42 !important;
+  }
+
+  .menu a.selected {
+    color: var(--text-selected-color);
+  }
+
+  .menu img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  main {
+    margin-left: 0;
+    margin-bottom: 4rem;
+    height: 844px;
+    padding: 10px;
+  }
+  .content {
+    height: 730px;
+    margin-bottom: 10px;
+  }
+.fondo {
+  background-image: url('../img/carretera.jpg');
+  background-size: cover;
+  background-position: center;
+    height: 180px;
+    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 18px;
+  border-radius: 30px;
+}
+
+
+.fondo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(7, 48, 129, 0.4);
+  z-index: 0;
+  border-radius: 30px;
+}
+
+
+.data {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5); /* hace que el texto resalte */
+}
+  .rutas {
+    height: 504px;
+    width: 100%;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: none;
+  }
+  .ruta_asig{
+    height: 120px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    background-color: #f2f5fa;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 10px;
+    font-size: 13px;
+    border-top: 3px solid #85a8e7;
+    display: flex;
+  }
+    
+  .rutas::-webkit-scrollbar {
+    width: 10px;
+  }
+  .rutas::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+  .rutas::-webkit-scrollbar-thumb {
+    background-color: #0288d1;
+    border-radius: 10px;
+    border: 2px solid #f0f0f0;
+  }
+
+
+  .rutas {
+    scrollbar-width: thin;
+    scrollbar-color: #0288d1 #f0f0f0;
+  }
+  .text{
+    font-weight: 600;
+  }
+  p{
+    margin-bottom: 8px;
+  }
+  #infoRuta{
+    width: 288px;
+  }
+  #ActRuta{
+    align-content: space-around;
+
+  }
+  #ActRuta .pop{
+    width: 80px;
+    height: 40px;
+    background-color: #85a8e7;
+    border-radius: 80px;
+    border: none;
+  }
+}
