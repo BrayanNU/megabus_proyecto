@@ -188,33 +188,76 @@ document.addEventListener("DOMContentLoaded", function () {
     pageLength: 4,
     layout: {
       topStart: {
-        buttons: ["copy", "excel", "pdf", "colvis"],
+        buttons: ["copy", "excel", {
+    extend: "pdfHtml5",
+    text: "Exportar PDF",
+    title: "Reporte de Usuarios",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6] // Omitir columna de botones (índice 7)
+    },
+    customize: function (doc) {
+      // Cambiar fuente, estilos, encabezados, márgenes, etc.
+      doc.styles.title = {
+        color: "#007bff",
+        fontSize: "20",
+        alignment: "center",
+      };
+
+      doc.content.splice(0, 1); // Elimina el título original
+      doc.content.unshift({
+        text: "REPORTE DE USUARIOS",
+        style: "title",
+        margin: [0, 0, 0, 10],
+      });
+
+      // Cambiar alineación de la tabla
+      doc.content[1].table.widths = ["5%", "15%", "15%", "25%", "10%", "15%", "15%"];
+    }
+  }, "colvis"],
       },
     },
   });
 });
 
 function eliminarUsuario(id) {
-  if (!confirm("¿Eliminar este usuario?")) return;
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción eliminará al usuario de forma permanente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append("accion", "eliminar");
+      formData.append("id", id);
 
-  const formData = new FormData();
-  formData.append("accion", "eliminar");
-  formData.append("id", id);
-
-  fetch("/megabus_proyecto/php/usuarios.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((r) => r.json())
-    .then((res) => {
-      if (res.success) {
-        cargarUsuarios();
-      } else {
-        alert("Error al eliminar: " + res.error);
-      }
-    })
-    .catch((error) => console.error("Error al eliminar usuario:", error));
+      fetch("/megabus_proyecto/php/usuarios.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.success) {
+            cargarUsuarios();
+            Swal.fire("Eliminado", "El usuario ha sido eliminado.", "success");
+          } else {
+            Swal.fire("Error", "No se pudo eliminar el usuario.", "error");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al eliminar usuario:", error);
+          Swal.fire("Error", "Ocurrió un error al eliminar el usuario.", "error");
+        });
+    }
+  });
 }
+
 
 function editarUsuario(id) {
   console.log("Editando usuario con ID:", id); // <== AÑADE ESTO

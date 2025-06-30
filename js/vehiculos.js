@@ -212,33 +212,113 @@ document.addEventListener("DOMContentLoaded", function () {
     pageLength: 4,
     layout: {
       topStart: {
-        buttons: ["copy", "excel", "pdf", "colvis"],
-      },
-    },
+        buttons: [
+          "copy",
+          "excel",
+          {
+            extend: "pdfHtml5",
+            text: "Exportar PDF",
+            title: "Reporte de Vehículos",
+            orientation: "landscape",
+            pageSize: "A4",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // Excluye la columna de acciones (índice 11)
+            },
+            customize: function (doc) {
+              doc.styles.title = {
+                color: "#007bff",
+                fontSize: 20,
+                alignment: "center",
+              };
+
+              doc.styles.tableHeader = {
+                fillColor: "#007bff",
+                color: "white",
+                bold: true,
+                fontSize: 12,
+              };
+
+              // Eliminar título automático
+              doc.content.splice(0, 1);
+
+              // Agregar título personalizado
+              doc.content.unshift({
+                text: "REPORTE DE VEHÍCULOS",
+                style: "title",
+                margin: [0, 0, 0, 12],
+              });
+
+              // Anchos proporcionales de columnas
+              doc.content[1].table.widths = [
+                "4%",  // #
+                "10%", // Placa
+                "10%", // Marca
+                "10%", // Modelo
+                "6%",  // Año
+                "10%", // Tipo
+                "10%", // Pasajeros
+                "10%", // Velocidad
+                "10%", // Kilometraje
+                "12%", // Último mantenimiento
+                "8%"   // Estado
+              ];
+            }
+          },
+          "colvis"
+        ]
+      }
+    }
   });
 });
 
+
 function eliminarVehiculo(id) {
-  if (!confirm("¿Eliminar este vehiculo?")) return;
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Este vehículo será eliminado.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (!result.isConfirmed) return;
 
-  const formData = new FormData();
-  formData.append("accion", "eliminar");
-  formData.append("id", id);
+    const formData = new FormData();
+    formData.append("accion", "eliminar");
+    formData.append("id", id);
 
-  fetch("/megabus_proyecto/php/vehiculos.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((r) => r.json())
-    .then((res) => {
-      if (res.success) {
-        cargarVehiculos();
-      } else {
-        alert("Error al eliminar: " + res.error);
-      }
+    fetch("/megabus_proyecto/php/vehiculos.php", {
+      method: "POST",
+      body: formData,
     })
-    .catch((error) => console.error("Error al eliminar vehiculo:", error));
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success) {
+          cargarVehiculos();
+          Swal.fire("Eliminado", "Vehículo eliminado correctamente.", "success");
+        } else {
+          // Verifica si el error es por restricción de clave foránea
+          if (
+            res.error &&
+            res.error.includes("a foreign key constraint fails")
+          ) {
+            Swal.fire({
+              icon: "error",
+              title: "No se puede eliminar",
+              text: "Este vehículo está siendo utilizado actualmente en un historial de viajes y no puede ser eliminado.",
+            });
+          } else {
+            Swal.fire("Error", "Ocurrió un error: " + res.error, "error");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error al eliminar vehiculo:", error);
+        Swal.fire("Error", "No se pudo conectar con el servidor.", "error");
+      });
+  });
 }
+
 
 function editarVehiculo(id) {
   fetch(`/megabus_proyecto/php/vehiculos.php?id=${id}`)

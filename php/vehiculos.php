@@ -151,29 +151,46 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
 }
 
 
-// Eliminar un conductor
+
+// Eliminar un vehiculo 
 elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     $id = $_POST['id'] ?? '';
 
     try {
         $pdo->beginTransaction();
+
+        // Verificar si el vehículo existe
         $stmt = $pdo->prepare("SELECT id_vehiculo FROM vehiculos WHERE id_vehiculo = ?");
         $stmt->execute([$id]);
         $id_vehiculo = $stmt->fetchColumn();
 
         if (!$id_vehiculo) {
-            throw new Exception("Vehiculo no encontrado");
+            throw new Exception("Vehículo no encontrado");
         }
-        $stmtDeleteConductor = $pdo->prepare("DELETE FROM vehiculos WHERE id_vehiculo = ?");
-        $stmtDeleteConductor->execute([$id]);
-        $pdo->commit();
 
+        // Intentar eliminar el vehículo
+        $stmtDelete = $pdo->prepare("DELETE FROM vehiculos WHERE id_vehiculo = ?");
+        $stmtDelete->execute([$id]);
+
+        $pdo->commit();
         echo json_encode(["success" => true]);
 
     } catch (PDOException $e) {
-
         $pdo->rollBack();
-        echo json_encode(["success" => false, "error" => $e->getMessage()]);
+
+        // Detectar error de integridad referencial (vehículo en uso)
+        if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
+            echo json_encode([
+                "success" => false,
+                "error" => "No se puede eliminar el vehículo porque está siendo utilizado actualmente en otro registro."
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "error" => "Error al eliminar vehículo: " . $e->getMessage()
+            ]);
+        }
     }
 }
+
 ?>

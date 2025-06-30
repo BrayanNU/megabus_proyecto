@@ -2,162 +2,155 @@ let dataTableInstance;
 let modoEdicion = false;
 let idRutaEditando = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
+  inicializarEventos();
+  inicializarDataTable();
   cargarRutas();
+});
 
-  document
-    .getElementById("origen")
-    .addEventListener("input", generarCodigoRuta);
-  document
-    .getElementById("destino")
-    .addEventListener("input", generarCodigoRuta);
-
+function inicializarEventos() {
   const form = document.getElementById("formRuta");
+  const velInput = document.getElementById("vel_max");
 
-    const velInput = document.getElementById("vel_max");
+  // Actualizar código de ruta al escribir en origen o destino
+  ["origen", "destino"].forEach((id) =>
+    document.getElementById(id).addEventListener("input", generarCodigoRuta)
+  );
 
-  // Mostrar "km/h" mientras escribes
-  velInput.addEventListener("input", function () {
-    // Eliminar todo excepto dígitos y agregar " km/h"
-    let valorNumerico = velInput.value.replace(/\D/g, '');
-    if (valorNumerico) {
-      velInput.value = `${valorNumerico} km/h`;
-    } else {
-      velInput.value = "";
-    }
+  // Formateo en vivo para el campo de velocidad máxima
+  velInput.addEventListener("input", () => {
+    const valorNumerico = velInput.value.replace(/\D/g, '');
+    velInput.value = valorNumerico ? `${valorNumerico} km/h` : "";
   });
 
-  // Facilitar edición al enfocar
-  velInput.addEventListener("focus", function () {
+  velInput.addEventListener("focus", () => {
     velInput.value = velInput.value.replace(" km/h", "");
   });
 
-  // Restaurar formato al salir del campo
-  velInput.addEventListener("blur", function () {
-    let valorNumerico = velInput.value.replace(/\D/g, '');
-    if (valorNumerico) {
-      velInput.value = `${valorNumerico} km/h`;
-    }
+  velInput.addEventListener("blur", () => {
+    const valorNumerico = velInput.value.replace(/\D/g, '');
+    velInput.value = valorNumerico ? `${valorNumerico} km/h` : "";
   });
 
-  form.addEventListener("submit", function (e) {
+  // Evento de envío del formulario
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
+    form.classList.remove("was-validated");
 
-     this.classList.remove("was-validated");
+    const origen = document.getElementById("origen").value.trim();
+    const destino = document.getElementById("destino").value.trim();
+    const codRuta = document.getElementById("cod_ruta").value.trim();
+    const estado = document.getElementById("estado").value.trim();
+    let velMax = document.getElementById("vel_max").value.trim().replace(/[^\d.]/g, '');
 
-  const origen = document.getElementById("origen").value.trim();
-  const destino = document.getElementById("destino").value.trim();
-  const codRuta = document.getElementById("cod_ruta").value.trim();
-  const estado = document.getElementById("estado").value.trim();
+    let mensajes = [];
+    const camposVacios = !origen && !destino && !codRuta && !velMax && !estado;
 
-  let valid = true;
-  let mensajes = [];
-
-  let velMaxInput = document.getElementById("vel_max").value.trim();
-  velMaxInput = velMaxInput.replace(/[^\d.]/g, '');
-  const velMax = parseFloat(velMaxInput);
-
-
-  const allEmpty =
-    origen === "" &&
-    destino === "" &&
-    codRuta === "" &&
-    velMaxInput === "" &&
-    estado === "";
-
-  if (allEmpty) {
-    Swal.fire({
-      icon: "warning",
-      title: "Formulario vacío",
-      text: "No se puede enviar el formulario vacío. Por favor, complete los campos requeridos.",
-    });
-    return;
-  }
-
-  if (origen === "") {
-    valid = false;
-    mensajes.push("Seleccione el punto de origen.");
-  }
-
-  if (destino === "") {
-    valid = false;
-    mensajes.push("Seleccione el punto de destino.");
-  }
-
-  if (codRuta === "") {
-    valid = false;
-    mensajes.push("Ingrese el nombre de la ruta.");
-  }
-
-  if (isNaN(velMax) || velMax <= 0) {
-  valid = false;
-  mensajes.push("Ingrese una velocidad máxima válida (número mayor a 0).");
-}
-
-  if (estado === "") {
-    valid = false;
-    mensajes.push("Seleccione el estado de la ruta.");
-  }
-
-  if (!valid) {
-    Swal.fire({
-      icon: "error",
-      title: "Errores en el formulario",
-      html: mensajes.join("<br>"),
-    });
-    return;
-  }
-
-    const formData = new FormData(this);
-    if (modoEdicion && idRutaEditando !== null) {
-      formData.append("accion", "editar");
-      formData.append("id_ruta", idRutaEditando);
-    } else {
-      formData.append("accion", "agregar");
+    if (camposVacios) {
+      return mostrarAlerta("warning", "Formulario vacío", "Complete los campos requeridos.");
     }
 
-    // Enviar datos al servidor
+    if (!origen) mensajes.push("Seleccione el punto de origen.");
+    if (!destino) mensajes.push("Seleccione el punto de destino.");
+    if (!codRuta) mensajes.push("Ingrese el nombre de la ruta.");
+    if (!estado) mensajes.push("Seleccione el estado de la ruta.");
+    if (isNaN(velMax) || velMax <= 0) mensajes.push("Ingrese una velocidad válida (> 0).");
+
+    if (mensajes.length > 0) {
+      return mostrarAlerta("error", "Errores en el formulario", mensajes.join("<br>"));
+    }
+
+    const formData = new FormData(form);
+    formData.append("accion", modoEdicion ? "editar" : "agregar");
+    if (modoEdicion) formData.append("id_ruta", idRutaEditando);
+
     fetch("/megabus_proyecto/php/rutas.php", {
       method: "POST",
       body: formData,
     })
-      .then((r) => r.json())
+      .then((res) => res.json())
       .then((res) => {
         if (res.success) {
-          this.reset();
-          this.classList.remove("was-validated");
+          form.reset();
+          form.classList.remove("was-validated");
           cargarRutas();
           modoEdicion = false;
           idRutaEditando = null;
-          Swal.fire("Éxito", "Ruta guardado correctamente.", "success");
+          mostrarAlerta("success", "Éxito", "Ruta guardada correctamente.");
         } else {
-          Swal.fire("Error", "No se pudo guardar la ruta.", "error");
+          mostrarAlerta("error", "Error", res.error || "No se pudo guardar la ruta.");
         }
       })
-      .catch((error) => {
-        console.error("Error al registrar ruta:", error);
-        Swal.fire("Error", "Error al registrar la ruta", "error");
+      .catch((err) => {
+        console.error("Error al registrar ruta:", err);
+        mostrarAlerta("error", "Error", "Error al registrar la ruta.");
       });
   });
-});
+}
+
+function inicializarDataTable() {
+  dataTableInstance = new DataTable("#example", {
+    pageLength: 4,
+    layout: {
+      topStart: {
+        buttons: [
+          "copy",
+          "excel",
+          {
+            extend: "pdfHtml5",
+            text: "Exportar PDF",
+            title: "Reporte de Rutas",
+            orientation: "landscape",
+            pageSize: "A4",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5] // Excluir columna de acciones
+            },
+            customize: function (doc) {
+              doc.styles.title = {
+                color: "#007bff",
+                fontSize: 20,
+                alignment: "center",
+              };
+
+              doc.styles.tableHeader = {
+                fillColor: "#007bff",
+                color: "white",
+                bold: true,
+                fontSize: 12,
+              };
+
+              // Elimina el título automático
+              doc.content.splice(0, 1);
+
+              // Agrega título personalizado
+              doc.content.unshift({
+                text: "REPORTE DE RUTAS",
+                style: "title",
+                margin: [0, 0, 0, 12],
+              });
+
+              // Ajusta ancho de columnas
+              doc.content[1].table.widths = ["5%", "15%", "15%", "25%", "15%", "15%"];
+            }
+          },
+          "colvis"
+        ],
+      },
+    },
+  });
+}
+
 
 function cargarRutas() {
   fetch("/megabus_proyecto/php/rutas.php")
-    .then((response) => response.json())
+    .then((res) => res.json())
     .then((data) => {
-      console.log("Respuesta del servidor:", data); // Agrega esto
-      if (!Array.isArray(data)) {
-        throw new Error("La respuesta no es un array");
-      }
-
+      if (!Array.isArray(data)) throw new Error("La respuesta no es un array");
       const tbody = document.querySelector("#example tbody");
-      tbody.innerHTML = ""; // Limpiar contenido previo
+      tbody.innerHTML = "";
 
-      // Limpiar los datos de la tabla sin destruir la instancia
-      if (dataTableInstance) {
-        dataTableInstance.clear();
-      }
-      // Llenar la tabla con los conductores
+      if (dataTableInstance) dataTableInstance.clear();
+
       data.forEach((ruta, index) => {
         dataTableInstance.row.add([
           index + 1,
@@ -167,57 +160,21 @@ function cargarRutas() {
           ruta.vel_max,
           ruta.estado,
           `
-                <button class="btn btn-warning btn-sm me-2" onclick="editarRuta(${ruta.id_ruta})">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="eliminarRuta(${ruta.id_ruta})">Eliminar</button>
-             `,
+            <button class="btn btn-warning btn-sm me-2" onclick="editarRuta(${ruta.id_ruta})">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminarRuta(${ruta.id_ruta})">Eliminar</button>
+          `,
         ]);
       });
 
-      // Redibujar la tabla
       dataTableInstance.draw();
     })
-    .catch((error) => console.error("Error al cargar los datos:", error));
-}
-
-// Inicialización de la DataTable fuera de la función cargarUsuarios()
-document.addEventListener("DOMContentLoaded", function () {
-  dataTableInstance = new DataTable("#example", {
-    pageLength: 4,
-    layout: {
-      topStart: {
-        buttons: ["copy", "excel", "pdf", "colvis"],
-      },
-    },
-  });
-});
-
-function eliminarRuta(id) {
-  if (!confirm("¿Eliminar este ruta?")) return;
-
-  const formData = new FormData();
-  formData.append("accion", "eliminar");
-  formData.append("id", id);
-
-  fetch("/megabus_proyecto/php/rutas.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((r) => r.json())
-    .then((res) => {
-      if (res.success) {
-        cargarRutas();
-      } else {
-        alert("Error al eliminar: " + res.error);
-      }
-    })
-    .catch((error) => console.error("Error al eliminar ruta:", error));
+    .catch((error) => console.error("Error al cargar rutas:", error));
 }
 
 function editarRuta(id) {
   fetch(`/megabus_proyecto/php/rutas.php?id=${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      const ruta = data;
+    .then((res) => res.json())
+    .then((ruta) => {
       document.getElementById("cod_ruta").value = ruta.cod_ruta;
       document.getElementById("origen").value = ruta.origen;
       document.getElementById("destino").value = ruta.destino;
@@ -227,23 +184,66 @@ function editarRuta(id) {
       modoEdicion = true;
       idRutaEditando = id;
     })
-    .catch((error) =>
-      console.error("Error al cargar datos para editar:", error)
-    );
+    .catch((err) => console.error("Error al cargar datos para editar:", err));
+}
+
+function eliminarRuta(id) {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción eliminará la ruta.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append("accion", "eliminar");
+      formData.append("id", id);
+
+      fetch("/megabus_proyecto/php/rutas.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.success) {
+            cargarRutas();
+            mostrarAlerta("success", "Eliminado", "Ruta eliminada correctamente.");
+          } else {
+            mostrarAlerta("error", "Error al eliminar", res.error);
+          }
+        })
+        .catch((error) => {
+          console.error("Error al eliminar ruta:", error);
+          mostrarAlerta("error", "Error", "No se pudo eliminar la ruta.");
+        });
+    }
+  });
+}
+
+
+function generarCodigoRuta() {
+  const origen = document.getElementById("origen").value;
+  const destino = document.getElementById("destino").value;
+
+  const cod = origen && destino
+    ? `${abreviar(origen)}-${abreviar(destino)}-01`
+    : "";
+
+  document.getElementById("cod_ruta").value = cod;
 }
 
 function abreviar(texto) {
   return texto.trim().substring(0, 3).toUpperCase();
 }
 
-function generarCodigoRuta() {
-  const origen = document.getElementById("origen").value;
-  const destino = document.getElementById("destino").value;
-
-  if (origen && destino) {
-    const cod = `${abreviar(origen)}-${abreviar(destino)}-01`;
-    document.getElementById("cod_ruta").value = cod;
-  } else {
-    document.getElementById("cod_ruta").value = "";
-  }
+function mostrarAlerta(icono, titulo, texto) {
+  Swal.fire({
+    icon: icono,
+    title: titulo,
+    html: texto,
+  });
 }

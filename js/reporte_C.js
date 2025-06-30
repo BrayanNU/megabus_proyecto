@@ -3,16 +3,46 @@ document.addEventListener("DOMContentLoaded", function () {
       const form = document.getElementById("formReporte");
 
       if (!id_usuario) {
-        Swal.fire({
-          icon: "error",
-          title: "No autenticado",
-          text: "Debe iniciar sesión para reportar."
-        });
-        form.querySelector("button[type='submit']").disabled = true;
-        return;
-      }
+      Swal.fire({
+        icon: "error",
+        title: "No autenticado",
+        text: "Debe iniciar sesión para reportar.",
+        confirmButtonText: "OK"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirigir después de que el usuario haga clic en OK
+          window.location.href = "../vista/login.html";
+        }
+      });
 
-      form.addEventListener("submit", function (e) {
+      form.querySelector("button[type='submit']").disabled = true;
+      return;
+    }
+
+  const params = new URLSearchParams(window.location.search);
+  const id_asignacion = params.get("id_asignacion");
+
+  // 2. Mostrar en el campo oculto
+  document.getElementById("id_asignacion").value = id_asignacion;
+
+  // 3. Consultar nombre de la ruta con PHP y mostrar
+  fetch(`/megabus_proyecto/php/reporte_C.php?accion=obtenerNombreRuta&id_asignacion=${id_asignacion}`)
+    .then(res => res.json())
+    .then(data => {
+      const divRuta = document.getElementById("nombreRuta");
+      if (data.success && data.nombre_ruta) {
+        divRuta.textContent = `Ruta: ${data.nombre_ruta}`;
+      } else {
+        divRuta.textContent = "Ruta no encontrada.";
+        divRuta.classList.replace("alert-primary", "alert-danger");
+      }
+    })
+    .catch(error => {
+      console.error("Error al obtener nombre de ruta:", error);
+      document.getElementById("nombreRuta").textContent = "Error al cargar la ruta.";
+    });
+
+ form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         const tipo = form.tipo_reporte.value.trim();
@@ -34,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData();
         formData.append("accion", "agregar");
         formData.append("id_usuario", id_usuario);
+        formData.append("id_asignacion", id_asignacion);
         formData.append("tipo_reporte", tipo);
         formData.append("descripcion", descripcion);
         if (archivo) formData.append("foto", archivo);
@@ -51,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (data.success) {
     Swal.fire("Éxito", "Reporte enviado correctamente.", "success");
     form.reset();
+    window.location.href = "../vista/rutas_C.html";
   } else {
     Swal.fire("Error", data.error || "No se pudo guardar el reporte.", "error");
   }

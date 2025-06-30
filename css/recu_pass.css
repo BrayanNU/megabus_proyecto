@@ -39,7 +39,7 @@ body {
 #formRecuPass input {
   padding-top: 8px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 12px;
 }
 #formRecuPass label {
   padding-top: 12px;
@@ -73,14 +73,15 @@ select:focus {
 }
 
 #formRecuPass button {
-  margin-top: 195px;
-  border-radius: 50px;
+  margin-top: 235px;
+  border-radius: 15px;
   background-color: #101e42;
   color: white;
   height: 50px;
 }
-h1 {
-  font-size: 25px;
+.column2 .tit {
+  font-size: 26px;
+  font-weight: 600;
 }
 
 .bg-success {
@@ -89,11 +90,17 @@ h1 {
 .btn-success{
 --bs-btn-bg: #081940 !important;
 }
+.login-container {
+  height: 865px;
+  width: 1500px;
+  padding: 35px;
+}
+
 @media screen and (max-width: 650px) {
   .login-container {
     display: flex;
     border-radius: 40px;
-    height: 812px;
+    height: 895px;
   }
   body {
     padding: 15px;
@@ -102,7 +109,12 @@ h1 {
   }
 
   .column2 {
-    padding-top: 70px;
+    padding-top: 25px;
     padding-bottom: 20px;
   }
+  .column2 .tit {
+    font-size: 24px;
+    font-weight: 600;
+}
+
 }

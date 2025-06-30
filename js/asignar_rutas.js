@@ -170,14 +170,25 @@ function select_Vehiculo(id) {
   fetch(`/megabus_proyecto/php/asignar_rutas.php?id=${id}&tipo=vehiculo`)
     .then((res) => res.json())
     .then((vehiculo) => {
-      document.getElementById("placa").value = vehiculo.placa + " " + vehiculo.marca;
-      idVehiculoEditando = id;
-      modoEdicion = true;
+      if (vehiculo && vehiculo.placa && vehiculo.marca) {
+        document.getElementById("placa").value = vehiculo.placa + " " + vehiculo.marca;
+        idVehiculoEditando = id;
+        modoEdicion = true;
+      } else {
+        // No se encontró o no está activo
+        document.getElementById("placa").value = "";
+        idVehiculoEditando = null;
+        Swal.fire("Vehículo no disponible", "Este vehículo no está activo o no se encontró.", "warning");
+      }
     })
     .catch((error) => {
       console.error("Error al cargar vehiculo:", error);
+      document.getElementById("placa").value = "";
+      idVehiculoEditando = null;
+      Swal.fire("Error", "No se pudo cargar el vehículo", "error");
     });
 }
+
 
 function select_Ruta(id) {
   fetch(`/megabus_proyecto/php/asignar_rutas.php?id=${id}&tipo=ruta`)

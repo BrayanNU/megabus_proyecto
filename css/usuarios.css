@@ -84,6 +84,13 @@ header {
 }
 
 /* Contenedor de los íconos del lado derecho */
+.derecha{
+  display: flex;
+  align-items:center;
+}
+.derecha .notif{
+  margin-right: 17px;
+}
 .right {
   display: flex;
   justify-content: center;

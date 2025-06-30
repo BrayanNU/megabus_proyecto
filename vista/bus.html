@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bus Animación</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+    #api-frame {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+  <script src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"></script>
+</head>
+<body>
+  <iframe id="api-frame"
+          allow="autoplay; fullscreen; xr-spatial-tracking"
+          allowfullscreen
+          mozallowfullscreen
+          webkitallowfullscreen>
+  </iframe>
+
+  <script>
+    const iframe = document.getElementById('api-frame');
+    const uid = '8361228fca134c7d9890ded9232cc03f'; // Modelo 3D del bus
+    const client = new Sketchfab(iframe);
+
+    client.init(uid, {
+      success: function (api) {
+        api.start();
+        api.addEventListener('viewerready', function () {
+          let x = -2.5, y = 0, z = 0;
+
+          const interval = setInterval(() => {
+            api.translate(x, y, z, {
+              duration: 100,
+              easing: 'linear'
+            });
+
+            x += 0.05;
+
+            if (x > 2.5) {
+              clearInterval(interval);
+
+              // Redirigir automáticamente al dashboard después de la animación
+              setTimeout(() => {
+                window.location.href = "../vista/dashboard.html";
+              }, 500);
+            }
+          }, 100);
+        });
+      },
+      error: function () {
+        console.error('Error al cargar el modelo');
+      }
+    });
+  </script>
+</body>
+</html>

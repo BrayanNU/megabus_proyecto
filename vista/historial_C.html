@@ -10,58 +10,85 @@
       crossorigin="anonymous"
     />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../css/dashboard_C.css" />
+    <link rel="stylesheet" href="../css/historial_C.css" />
   </head>
   <body>
     <main id="main">
       <div class="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda et
-        eos enim ut porro cumque, dolorem molestiae maxime praesentium, est iste
-        inventore ea fugiat omnis aperiam sed delectus obcaecati natus.
+        <div class="fondo">
+          <p>Resumen de tus viajes</p>
+        <form id="formHistorial_C" enctype="multipart/form-data" novalidate>
+          <div class="cuadros">
+            <!-- Código de Ruta -->
+          <label for="cod_ruta">Código de Ruta:</label>
+          <input type="text" id="cod_ruta" name="cod_ruta" placeholder="Ej: RUTA123" />
+
+          <!-- Fecha del Viaje -->
+          <label for="fecha_viaje">Fecha del Viaje:</label>
+          <input type="date" id="fecha_viaje" name="fecha_viaje" />
+          </div>
+
+          <div class="bton">
+            <button type="submit">Buscar</button>
+          </div>
+        </form>
+        </div>
+        <div class="text">Viajes Realizados</div>
+        <div id="carruselContainer">
+            <button id="btnAnterior">⟵</button>
+
+            <!-- NUEVO ENVOLTORIO -->
+            <div class="carrusel-wrapper">
+              <div id="contenedorHistorial_C" class="carrusel">
+                <!-- Tarjetas del historial se insertan aquí -->
+              </div>
+            </div>
+
+            <button id="btnSiguiente">⟶</button>
+        </div>
+
+          
       </div>
       <div class="menu">
         <nav>
           <ul>
             <li>
-              <a href="../vista/rutas_C.html" class="selected">
+              <a href="../vista/rutas_C.html">
                 <img src="../icons/route-svgrepo-com.svg" alt="" />
                 <span>Rutas</span>
               </a>
             </li>
             <li>
-              <a href="../vista/reporte_C.html">
+              <a onclick="return false;">
                 <img src="../icons/report-svgrepo-com (1).svg" alt="" />
                 <span>Reportar</span>
               </a>
             </li>
             <li>
-              <a href="../vista/historial_C.html">
+              <a href="../vista/historial_C.html" class="selected">
                 <img src="../icons/history-2-svgrepo-com.svg" alt="" />
                 <span>Historial</span>
               </a>
             </li>
             <li>
-              <a href="../vista/alertas_C.html">
+              <a href="../vista/notificaciones_C.html">
                 <img src="../icons/alert-triangle-svgrepo-com.svg" alt="" />
                 <span>Alertas</span>
               </a>
             </li>
             <li>
-              <a href="../vista/notificaciones_C.html">
-                <img src="../icons/notifications-alert-svgrepo-com.svg" alt="" />
-                <span>Notificaciones</span>
-              </a>
-            </li>
-            <li>
-              <a href="../vista/login.html">
+              <a href="#" id="cerrarSesion">
                 <img src="../icons/logout-3-svgrepo-com.svg" alt="" />
-                <span>Cerrar Sesion
-                </span>
+                <span>Cerrar Sesion </span>
               </a>
             </li>
           </ul>
         </nav>
       </div>
     </main>
+    <script src="../js/historial_C.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>
+
+

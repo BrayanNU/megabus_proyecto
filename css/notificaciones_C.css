@@ -46,7 +46,7 @@ main {
     position: fixed;
     left: 0;
     width: 410px;
-    border-top: 3px solid var(--border-color);
+    border-top: 3px solid #85a8e7;
     justify-content: space-around;
     padding: 0.5rem 0;
     background-color: #f2f5fa;
@@ -77,12 +77,14 @@ main {
     align-items: center;
     text-decoration: none;
 
-    font-size: 0.75rem;
-    color: #101E42 !important;
+     font-size: 0.75rem;
+    color: #101E42 ;
   }
 
   .menu a.selected {
     color: var(--text-selected-color);
+    background: #dfe8ff;
+    border-radius: 10px;
   }
 
   .menu img {

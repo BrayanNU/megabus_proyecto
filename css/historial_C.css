@@ -46,11 +46,11 @@ main {
     position: fixed;
     left: 0;
     width: 410px;
-    border-top: 3px solid var(--border-color);
+    border-top: 3px solid #85a8e7;
     justify-content: space-around;
     padding: 0.5rem 0;
     background-color: #f2f5fa;
-    color: #101E42 !important;
+    color: #101e42 !important;
     border-radius: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -77,14 +77,15 @@ main {
     align-items: center;
     text-decoration: none;
 
-    font-size: 0.75rem;
-    color: #101E42 !important;
+   font-size: 0.75rem;
+    color: #101E42 ;
   }
 
   .menu a.selected {
     color: var(--text-selected-color);
+    background: #dfe8ff;
+    border-radius: 10px;
   }
-
   .menu img {
     width: 1.5rem;
     height: 1.5rem;
@@ -97,8 +98,168 @@ main {
     height: 844px;
     padding: 10px;
   }
-  .content{
-    height: 736px;
+  .content {
+    height: 816px;
+    margin-bottom: 10px;
   }
+
+
+
+
+
+  .rutas {
+    height: 540px;
+    width: 100%;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: none;
+  }
+  .ruta_asig{
+    height: 120px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    background-color: #f2f5fa;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 10px;
+    font-size: 13px;
+    border-top: 3px solid #85a8e7;
+    display: flex;
+  }
+    
+  .rutas::-webkit-scrollbar {
+    width: 10px;
+  }
+  .rutas::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+  .rutas::-webkit-scrollbar-thumb {
+    background-color: #0288d1;
+    border-radius: 10px;
+    border: 2px solid #f0f0f0;
+  }
+
+
+  .rutas {
+    scrollbar-width: thin;
+    scrollbar-color: #0288d1 #f0f0f0;
+  }
+  .text{
+    font-weight: 600;
+  }
+  p{
+    margin-bottom: 8px;
+  }
+  #infoRuta{
+    width: 288px;
+  }
+  #ActRuta{
+    align-content: space-around;
+
+  }
+  #ActRuta .pop{
+    width: 80px;
+    height: 40px;
+    background-color: #85a8e7;
+    border-radius: 80px;
+    border: none;
+  }
+  .fondo {
+  background-color: #85a8e7;
+  background-size: cover;
+  background-position: center;
+  height: 180px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 18px;
+  border-radius: 30px;
+  color: white;
+  padding: 25px;
+  display: block;
+}
+.fondo p{
+  font-weight: 600;
+  font-size: 30px;
+}
+.fondo form{
+  display: -webkit-inline-box;
+}
+.fondo form input{
+  height: 33px;
+  width: 165px;
+  border-radius: 10px;
+  padding: 5px;
+  border: none;
+  margin-bottom: 8px;
+}
+.cuadros{
+  width: 290px;
+}
+.fondo button{
+  width: 80px;
+  height: 50px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #f2f5fa;
+  border: none;
+}
+
+
+#carruselContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.carrusel-wrapper {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 90vw;
+}
+
+.carrusel {
+  display: flex;
+  gap: 20px; /* para espacio entre tarjetas */
+  overflow-x: hidden;
+}
+
+.viaje_card {
+  width: 302px;
+  flex-shrink: 0;
+  padding: 20px;
+  margin: 0 5px;
+  background-color: #f2f5fa;
+  border-top: 4px solid #85a8e7;
+  border-right: 4px solid #85a8e7;
+  border-bottom: 4px solid #85a8e7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* sombra suave */
+  height: 550px;
+}
+
+#btnAnterior,
+#btnSiguiente {
+  background-color: #85a8e7;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#btnAnterior:hover,
+#btnSiguiente:hover {
+  background-color: #85a8e7;
+}
+
 
 }

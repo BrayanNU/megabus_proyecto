@@ -185,33 +185,111 @@ document.addEventListener("DOMContentLoaded", function () {
     pageLength: 4,
     layout: {
       topStart: {
-        buttons: ["copy", "excel", "pdf", "colvis"],
+        buttons: [
+          "copy",
+          "excel",
+          {
+            extend: "pdfHtml5",
+            text: "Exportar PDF",
+            title: "Reporte de Conductores",
+            orientation: "portrait",
+            pageSize: "A4",
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6] // Excluir columna de acciones
+            },
+            customize: function (doc) {
+              doc.styles.title = {
+                color: "#007bff",
+                fontSize: 20,
+                alignment: "center",
+              };
+
+              doc.styles.tableHeader = {
+                fillColor: "#007bff",
+                color: "white",
+                bold: true,
+                fontSize: 12,
+              };
+
+              // Elimina el título automático
+              doc.content.splice(0, 1);
+
+              // Insertar título de empresa "Mega Bus"
+              doc.content.unshift({
+                text: "MEGA BUS",
+                style: "title",
+                fontSize: 24,
+                bold: true,
+                margin: [0, 0, 0, 5],
+                alignment: "center"
+              });
+
+              // Insertar subtítulo
+              doc.content.splice(1, 0, {
+                text: "REPORTE DE CONDUCTORES",
+                style: "subheader",
+                margin: [0, 0, 0, 12],
+                alignment: "center"
+              });
+
+              // Ajustar ancho de columnas (adaptar si es necesario)
+              doc.content[2].table.widths = [
+                "5%",   // #
+                "15%",  // DNI
+                "15%",  // Nombre
+                "15%",  // Apellido
+                "20%",  // Licencia
+                "15%",  // Fecha Venc.
+                "15%",  // Teléfono
+              ];
+            }
+          },
+          "colvis"
+        ],
       },
     },
   });
 });
 
+
 function eliminarConductor(id) {
-  if (!confirm("¿Eliminar este conductor?")) return;
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción eliminará al conductor y no se podrá revertir.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append("accion", "eliminar");
+      formData.append("id", id);
 
-  const formData = new FormData();
-  formData.append("accion", "eliminar");
-  formData.append("id", id);
-
-  fetch("/megabus_proyecto/php/conductores.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((r) => r.json())
-    .then((res) => {
-      if (res.success) {
-        cargarConductores();
-      } else {
-        alert("Error al eliminar: " + res.error);
-      }
-    })
-    .catch((error) => console.error("Error al eliminar conductor:", error));
+      fetch("/megabus_proyecto/php/conductores.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.success) {
+            Swal.fire("Eliminado", "Conductor eliminado correctamente.", "success");
+            cargarConductores();
+          } else {
+            Swal.fire("Error", "No se pudo eliminar el conductor. " + (res.error || ""), "error");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al eliminar conductor:", error);
+          Swal.fire("Error", "Error inesperado al eliminar conductor.", "error");
+        });
+    }
+  });
 }
+
+
 
 function editarConductor(id) {
   fetch(`/megabus_proyecto/php/conductores.php?id=${id}`)

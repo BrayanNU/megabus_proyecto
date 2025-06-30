@@ -1,5 +1,4 @@
 <?php
-/*
 header('Content-Type: application/json');
 require_once 'conexion.php';
 
@@ -22,10 +21,15 @@ if ($method === 'GET' && isset($_GET['id_asignacion'])) {
         $stmt->execute([$idAsignacion]);
         $ruta = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($ruta) {
-            echo json_encode($ruta);
+        if ($ruta && !empty($ruta['destino'])) {
+            // Solo se requiere "destino" para que funcione el JS
+            echo json_encode([
+                "destino" => $ruta['destino'],
+                "origen" => $ruta['origen'],     // opcional
+                "vel_max" => $ruta['vel_max']    // opcional
+            ]);
         } else {
-            echo json_encode(["error" => "Ruta no encontrada."]);
+            echo json_encode(["error" => "Ruta no encontrada o destino vacío."]);
         }
     } catch (PDOException $e) {
         http_response_code(500);
@@ -35,4 +39,4 @@ if ($method === 'GET' && isset($_GET['id_asignacion'])) {
     http_response_code(400);
     echo json_encode(["error" => "Solicitud no válida. Se requiere id_asignacion por GET."]);
 }
-*/
+?>

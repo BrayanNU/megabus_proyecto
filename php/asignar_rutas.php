@@ -37,7 +37,7 @@ if ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'agreg
     }
 
     if ($tipo === 'vehiculo') {
-        $stmt = $pdo->prepare("SELECT * FROM vehiculos WHERE id_vehiculo = ?");
+        $stmt = $pdo->prepare("SELECT * FROM vehiculos WHERE id_vehiculo = ? AND estado = 'Activo'");
         $stmt->execute([$id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         echo json_encode($data ?: []);

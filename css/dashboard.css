@@ -24,7 +24,7 @@
 }
 body {
   width: 100%;
-  height: 100vh;
+  height: 93vh;
 }
 
 /* Encabezado*/
@@ -83,6 +83,13 @@ header {
 }
 
 /* Contenedor de los íconos del lado derecho */
+.derecha{
+  display: flex;
+  align-items:center;
+}
+.derecha .notif{
+  margin-right: 17px;
+}
 .right {
   display: flex;
   justify-content: center;
@@ -218,7 +225,7 @@ main .block_1 {
 }
 main .block_2 {
   width: 100%;
-  height: 350px;
+  height: 310px;
   margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
@@ -226,7 +233,7 @@ main .block_2 {
 }
 main .block_3 {
   width: 100%;
-  height: 225px;
+  height: 290px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -241,11 +248,12 @@ main .block_3 {
   padding: 35px;
 }
 .med_a{
-  width: 1145px;
+  width: 750px;
   height: 100%;
   background-color:white;
   box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
   border-radius: 18px;
+  padding: 23px;
 }
 .med_b{
   width: 350px;
@@ -253,6 +261,15 @@ main .block_3 {
   background-color: white;
   box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
   border-radius: 18px;
+  padding: 23px;
+}
+.med_c{
+  width: 350px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
+  border-radius: 18px;
+  padding: 23px;
 }
 .foot_a{
   width: 750px;
@@ -260,6 +277,7 @@ main .block_3 {
   background-color: white;
   box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
   border-radius: 18px;
+  padding: 15px;
 }
 .foot_b{
   width: 350px;
@@ -267,6 +285,7 @@ main .block_3 {
   background-color: white;
   box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
   border-radius: 18px;
+  padding: 15px;
 }
 .foot_c{
   width: 350px;
@@ -274,6 +293,7 @@ main .block_3 {
   background-color: white;
   box-shadow: 1px 1px 1px 1px rgba(32, 32, 32, 0.3);
   border-radius: 18px;
+  padding: 15px;
 }
 .bad img{
   width: 100%;

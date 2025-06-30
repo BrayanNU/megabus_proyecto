@@ -36,6 +36,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
       sessionStorage.setItem('id_usuario', data.id_usuario);
       sessionStorage.setItem('nombre', data.nombre);
+      sessionStorage.setItem('rol', data.rol);
 
       if (data.rol === "Administrador") {
         window.location.href = "../vista/dashboard.html";

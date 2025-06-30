@@ -46,7 +46,7 @@ main {
     position: fixed;
     left: 0;
     width: 410px;
-    border-top: 3px solid var(--border-color);
+    border-top: 3px solid #85a8e7;
     justify-content: space-around;
     padding: 0.5rem 0;
     background-color: #f2f5fa;
@@ -77,12 +77,14 @@ main {
     align-items: center;
     text-decoration: none;
 
-    font-size: 0.75rem;
-    color: #101E42 !important;
+   font-size: 0.75rem;
+    color: #101E42 ;
   }
 
   .menu a.selected {
     color: var(--text-selected-color);
+    background: #dfe8ff;
+    border-radius: 10px;
   }
 
   .menu img {
@@ -98,7 +100,7 @@ main {
     padding: 10px;
   }
   .content{
-    height: 726px;
+    height: 816px;
     margin-bottom: 10px;
     background-color: #85a8e7;
     border-radius: 30px;
@@ -114,7 +116,7 @@ main {
     font-size: 35px;
   }
   .report{
-    height: 566px;
+    height: 656px;
     width: 100%;
     background-color: #f2f5fa;
     border-radius: 30px;

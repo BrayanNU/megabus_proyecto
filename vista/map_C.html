@@ -3,58 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+  <link rel="stylesheet" href="../css/map_C.css" />
+
     <title>Dashboard</title>
     <link rel="stylesheet" href="../css/map_C.css" />
   </head>
   <body>
     <main id="main">
       <div class="content">
-        <div class="map">
-           <div id="map">  </div>
-           <H1>En Mantenimiento....</H1>
+        <button id="startBtn">Iniciar</button>
+        <button id="simulateBtn" style="display: none;"><img src="../icons/route-perspective-svgrepo-com (1).svg" alt="" /></button>
+        <button id="reportBtn"><img src="../icons/cancel-button-svgrepo-com.svg" alt="" /></button>
+        <div id="speedometer">
+        <span id="speedValue">0</span> km/h
         </div>
+        <div id="map" style="height: 762px;"></div>
       </div>
+
       <div class="menu">
         <nav>
           <ul>
             <li>
-              <a href="../vista/rutas_C.html" class="selected">
+              <a onclick="return false;">
                 <img src="../icons/route-svgrepo-com.svg" alt="" />
                 <span>Rutas</span>
               </a>
             </li>
             <li>
-              <a href="../vista/reporte_C.html">
+              <a onclick="return false;">
                 <img src="../icons/report-svgrepo-com (1).svg" alt="" />
                 <span>Reportar</span>
               </a>
             </li>
             <li>
-              <a href="../vista/historial_C.html">
+              <a onclick="return false;">
                 <img src="../icons/history-2-svgrepo-com.svg" alt="" />
                 <span>Historial</span>
               </a>
             </li>
             <li>
-              <a href="../vista/alertas_C.html">
+              <a onclick="return false;">
                 <img src="../icons/alert-triangle-svgrepo-com.svg" alt="" />
                 <span>Alertas</span>
               </a>
             </li>
             <li>
-              <a href="../vista/notificaciones_C.html">
-                <img src="../icons/notifications-alert-svgrepo-com.svg" alt="" />
-                <span>Notificaciones</span>
-              </a>
-            </li>
-            <li>
-              <a href="../vista/login.html">
+              <a onclick="return false;">
                 <img src="../icons/logout-3-svgrepo-com.svg" alt="" />
                 <span>Cerrar Sesion
                 </span>
@@ -66,14 +65,299 @@
     </main>
 
     <script src="../js/mapaRuta.js"></script>
-    <!--
-    <script>
-      function initMap() {
+     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+
+<script>
+  let map = L.map('map').setView([0, 0], 15); // Activamos controles de zoom
+  map.scrollWheelZoom.enable(); // Zoom con el mouse/touchpad habilitado
+
+  let controlRuta = null;
+  let marker = null;
+  let currentCoords = null;
+  window.simulacionCoords = null; // Ruta lista para simular
+
+  // Capa base
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  // Icono de bus rotatorio
+  const busIcon = L.divIcon({
+    html: '<img id="bus-icon" src="../img/bus.png" style="width: 32px; transform: rotate(0deg); transition: transform 0.2s linear;">',
+    iconSize: [36, 36],
+    className: 'bus-marker-class'
+  });
+
+  // Seguimiento GPS
+  navigator.geolocation.watchPosition(
+    (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const heading = pos.coords.heading || 0;
+      currentCoords = [lat, lon];
+
+    if (!marker) {
+      marker = L.marker(currentCoords, { icon: busIcon }).addTo(map);
+    } else {
+      marker.setLatLng(currentCoords);
+    }
+
+    const busImg = document.getElementById("bus-icon");
+    if (busImg) busImg.style.transform = `rotate(${heading}deg)`;
+
+    // Velocidad en km/h
+    const speed = pos.coords.speed || 0;
+    const speedKmH = (speed * 3.6).toFixed(1);
+
+    document.getElementById("speedValue").textContent = speedKmH;
+
+    // Enviar velocidad al servidor
+    enviarVelocidadAlServidor(speedKmH);
+
+      map.setView(currentCoords, map.getZoom(), { animate: true }); // Conserva zoom actual
+    },
+    (err) => {
+      console.error("Error de GPS:", err.message);
+      alert("No se pudo obtener tu ubicación.");
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 20000
+    }
+  );
+
+  // Botón iniciar ruta
+  document.getElementById("startBtn").addEventListener("click", async () => {
+    if (!currentCoords) {
+      alert("Esperando ubicación GPS actual...");
+      return;
+    }
+
+    const idAsignacion = sessionStorage.getItem("id_asignacion");
+
+    if (!idAsignacion) {
+      Swal.fire("Error", "Ruta no seleccionada. Regresa y elige una ruta.", "error");
+      return;
+    }
+
+    Swal.fire({
+      title: "¿Iniciar ruta?",
+      text: "Una vez comenzada, otras rutas serán bloqueadas por seguridad.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, comenzar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33"
+    }).then(async (result) => {
+      
+      if (!result.isConfirmed) return;
+      
+      document.getElementById("startBtn").style.display = "none";
+      const res = await fetch(`/megabus_proyecto/php/obt_ruta.php?id_asignacion=${idAsignacion}`);
+      const data = await res.json();
+
+      if (!data.destino) {
+        Swal.fire("Error", "No se encontró la ruta seleccionada.", "error");
+        return;
       }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
--->
+
+      try {
+        const geocode = async (lugar) => {
+          const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(lugar + ', Perú')}`);
+          const result = await response.json();
+          if (result.length === 0) throw new Error("No encontrado");
+          return [parseFloat(result[0].lat), parseFloat(result[0].lon)];
+        };
+
+        const destinoCoords = await geocode(data.destino);
+        if (controlRuta) map.removeControl(controlRuta);
+
+        const destinoIcon = L.icon({
+          iconUrl: '../img/finish.png',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32]
+        });
+
+        L.marker(destinoCoords, { icon: destinoIcon }).addTo(map)
+          .bindPopup("Destino").openPopup();
+
+        controlRuta = L.Routing.control({
+          waypoints: [
+            L.latLng(currentCoords[0], currentCoords[1]),
+            L.latLng(destinoCoords[0], destinoCoords[1])
+          ],
+          routeWhileDragging: false,
+          draggableWaypoints: false,
+          addWaypoints: false,
+          show: false,
+          createMarker: () => null
+        }).addTo(map);
+
+        controlRuta.on('routesfound', function (e) {
+          const route = e.routes[0];
+          window.simulacionCoords = route.coordinates.map(coord => ({
+            lat: coord.lat,
+            lng: coord.lng
+          }));
+
+          document.getElementById("simulateBtn").style.display = "inline-block";
+          Swal.fire("Éxito", "La ruta ha comenzado correctamente.", "success");
+        });
+
+        map.setView(currentCoords, map.getZoom());
+      } catch (err) {
+        Swal.fire("Error", "Error al geocodificar destino: " + err.message, "error");
+      }
+    });
+  });
+
+  // Ocultar botón al inicio
+  document.getElementById("simulateBtn").style.display = "none";
+
+let simulationInterval = null;
+let simulationIndex = 0;
+let velocidadActualKmH = 60 + Math.random() * 20; // entre 60 y 80 km/h al iniciar
+
+let cambioVelocidadInterval = null; // nuevo: para controlar cambios cada minuto
+
+const simulateBtn = document.getElementById("simulateBtn");
+
+simulateBtn.addEventListener("click", () => {
+  if (simulationInterval) {
+    clearTimeout(simulationInterval);
+    clearInterval(cambioVelocidadInterval);
+    detenerAlertaVelocidad(); // 🟥 Detenemos la alerta si ya está activa
+    simulationInterval = null;
+    simulationIndex = 0;
+    simulateBtn.innerHTML = '<img src="../icons/route-perspective-svgrepo-com (1).svg" alt="" />';
+    document.getElementById("speedValue").textContent = "0.0";
+    enviarVelocidadAlServidor(0);
+    Swal.fire("Simulación detenida", "La simulación ha sido cancelada.", "info");
+    return;
+  }
+
+  const routeLine = window.simulacionCoords;
+  if (!routeLine || routeLine.length === 0) {
+    alert("No se pudo obtener la ruta simulada.");
+    return;
+  }
+
+  simulateBtn.innerHTML = '<img src="../icons/stop-svgrepo-com.svg" alt="" />';
+  cambioVelocidadInterval = setInterval(() => {
+    velocidadActualKmH = 50 + Math.random() * 30;
+  }, 10000);
+   iniciarAlertaVelocidad(); 
+
+  // nuevo: cambiar velocidad cada minuto (60,000 ms)
+  cambioVelocidadInterval = setInterval(() => {
+    velocidadActualKmH = 50 + Math.random() * 30; // ahora entre 50 y 80 km/h
+  }, 10000);
+  iniciarAlertaVelocidad(); 
+
+  function simularPaso() {
+    if (simulationIndex >= routeLine.length - 1) {
+      clearInterval(cambioVelocidadInterval); // detener cambios al final
+      simulateBtn.innerHTML = '<img src="../icons/route-perspective-svgrepo-com (1).svg" alt="" />';
+      document.getElementById("speedValue").textContent = "0.0";
+      enviarVelocidadAlServidor(0);
+      Swal.fire("Simulación terminada", "La ruta simulada ha finalizado.", "success");
+      return;
+    }
+
+    const currentPoint = routeLine[simulationIndex];
+    const nextPoint = routeLine[simulationIndex + 1];
+
+    const distance = getDistanceFromLatLonInKm(
+      currentPoint.lat, currentPoint.lng,
+      nextPoint.lat, nextPoint.lng
+    );
+
+    const velocidadMs = velocidadActualKmH / 3.6;
+    const tiempoSegundos = distance * 1000 / velocidadMs;
+    const tiempoMilisegundos = tiempoSegundos * 1000;
+
+    document.getElementById("speedValue").textContent = velocidadActualKmH.toFixed(1);
+    enviarVelocidadAlServidor(velocidadActualKmH.toFixed(1));
+
+    marker.setLatLng([nextPoint.lat, nextPoint.lng]);
+    map.setView([nextPoint.lat, nextPoint.lng], map.getZoom());
+
+    simulationIndex++;
+
+    simulationInterval = setTimeout(simularPaso, tiempoMilisegundos);
+  }
+
+  simularPaso();
+
+});
+
+document.getElementById("reportBtn").addEventListener("click", () => {
+  const idAsignacion = sessionStorage.getItem("id_asignacion");
+  if (!idAsignacion) {
+    Swal.fire("Error", "No se encontró una asignación activa.", "error");
+    return;
+  }
+  // Redirige incluyendo el ID por la URL
+  window.location.href = `../vista/reporte_C.html?id_asignacion=${idAsignacion}`;
+});
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(deg2rad(lat1)) *
+    Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
+}
 
 
+function enviarVelocidadAlServidor(velocidad) {
+  const idAsignacion = sessionStorage.getItem("id_asignacion");
+  if (!idAsignacion) return;
+
+  fetch('/megabus_proyecto/php/velocidad_update.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_asignacion: idAsignacion,
+      velocidad: velocidad
+    })
+  });
+}
+
+setInterval(() => {
+  const idAsignacion = sessionStorage.getItem("id_asignacion");
+  const velocidad = parseFloat(document.getElementById("speedValue").textContent);
+  if (!idAsignacion || isNaN(velocidad)) return;
+
+  fetch('/megabus_proyecto/php/alerta_velocidad.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_asignacion: idAsignacion,
+      velocidad: velocidad
+    })
+  });
+}, 8000); // Cada 8 segundos
+
+</script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/alerta_map.js"></script>
   </body>
 </html>
