@@ -4,7 +4,7 @@ require_once 'conexion.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Obtener todos los conductores
+
 if ($method === 'GET' && !isset($_GET['id'])) {
     try {
         $stmt = $pdo->query("
@@ -21,7 +21,7 @@ SELECT c.id_conductor, c.id_usuario, c.dni, c.licencia_conducir, c.fecha_vencimi
     }
 }
 
-// Obtener un solo conductor por ID
+
 elseif ($method === 'GET' && isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
@@ -47,7 +47,7 @@ elseif ($method === 'GET' && isset($_GET['id'])) {
     }
 }
 
-//Agregar conductor
+
 
 elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'agregar') {
 
@@ -67,7 +67,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
         exit;
     }
 
-    // Verificacion de si el correo ya existe
+
     try {
         $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE correo = ?");
         $stmtCheck->execute([$email]);
@@ -82,13 +82,13 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
         exit;
     }
 
-    // Encriptacion de la contraseña
+
     $passwordHash = password_hash($passwordPlano, PASSWORD_DEFAULT);
 
     try {
         $pdo->beginTransaction();
 
-        // Insertar en usuarios
+
         $stmtUsuario = $pdo->prepare("INSERT INTO usuarios (nombre, apellido, correo, contrasena, rol, estado) VALUES (?, ?, ?, ?, ?, ?)");
         $stmtUsuario->execute([
             $nombre,
@@ -100,7 +100,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
         ]);
         $id_usuario = $pdo->lastInsertId();
 
-        // Insertar en conductores
+
         $stmtConductor = $pdo->prepare("INSERT INTO conductores (id_usuario, dni, licencia_conducir, fecha_vencimiento_licencia, telefono) VALUES (?, ?, ?, ?, ?)");
         $stmtConductor->execute([
             $id_usuario,
@@ -119,7 +119,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
 }
 
 
-// Editar conductor
+
 elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
     $id_conductor = $_POST['id_conductor'] ?? '';
     $nombre = $_POST['nombre'] ?? '';
@@ -145,11 +145,10 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
             throw new Exception("Usuario no encontrado");
         }
 
-        // Actualizar datos en usuarios
         $stmtUpdateUser = $pdo->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, correo = ? WHERE id_usuario = ?");
         $stmtUpdateUser->execute([$nombre, $apellido, $email, $id_usuario]);
 
-        // Actualizar datos en conductores
+
         $stmtUpdateConductor = $pdo->prepare("UPDATE conductores SET dni = ?, licencia_conducir = ?, fecha_vencimiento_licencia = ?, telefono = ? WHERE id_conductor = ?");
         $stmtUpdateConductor->execute([$dni, $licencia, $fecha, $telefono, $id_conductor]);
 
@@ -162,7 +161,6 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
 }
 
 
-// Eliminar un conductor
 elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     $id = $_POST['id'] ?? '';
 

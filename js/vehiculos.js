@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     this.classList.remove("was-validated");
 
-    // Validaciones personalizadas
+
     const placa = form.placa.value.trim();
     const marca = form.marca.value.trim();
     const modelo = form.modelo.value.trim();
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let valid = true;
     let mensajes = [];
 
-    // Verificar si todos los campos están vacíos
+
     const allEmpty =
       placa === "" &&
       marca === "" &&
@@ -49,14 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Validación de placa (formato XYZ678)
+
     const placaRegex = /^[A-Z]{3}[0-9]{3}$/;
     if (!placaRegex.test(placa)) {
       valid = false;
       mensajes.push("La placa debe tener el formato ABC123, sin guión");
     }
 
-    // Validación de marca (solo letras y espacios)
+
     const marcaRegex = /^[A-Za-zÁÉÍÓÚÑáéíóúñ\s]{2,30}$/;
     if (!marcaRegex.test(marca)) {
       valid = false;
@@ -73,25 +73,24 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-    // Año entre 1900 y 2099
+
     if (isNaN(anio) || anio < 1900 || anio > 2099) {
       valid = false;
       mensajes.push("Ingrese un año válido entre 1900 y 2099.");
     }
 
-    // Tipo de bus
     if (!tipo) {
       valid = false;
       mensajes.push("Seleccione un tipo de bus.");
     }
 
-    // Estado
+
     if (!estado) {
       valid = false;
       mensajes.push("Seleccione un estado del vehículo.");
     }
 
-    // Números positivos
+
     if (isNaN(pasajeros) || pasajeros <= 0 || pasajeros >60) {
       valid = false;
       mensajes.push("El número de pasajeros debe ser un valor positivo, MAX 60");
@@ -107,13 +106,13 @@ document.addEventListener("DOMContentLoaded", function () {
       mensajes.push("El kilometraje debe ser un número válido.");
     }
 
-    // Fecha de mantenimiento no vacía
+
     if (!mantenimiento) {
       valid = false;
       mensajes.push("Seleccione la fecha del último mantenimiento.");
     }
 
-    // Mostrar errores
+
     if (!valid) {
       if (mensajes.length > 4) {
         Swal.fire({
@@ -139,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("accion", "agregar");
     }
 
-    // Enviar datos al servidor
+
     fetch("/megabus_proyecto/php/vehiculos.php", {
       method: "POST",
       body: formData,
@@ -167,19 +166,19 @@ function cargarVehiculos() {
   fetch("/megabus_proyecto/php/vehiculos.php")
     .then((response) => response.json())
     .then((data) => {
-      console.log("Respuesta del servidor:", data); // Agrega esto
+      console.log("Respuesta del servidor:", data); 
       if (!Array.isArray(data)) {
         throw new Error("La respuesta no es un array");
       }
 
       const tbody = document.querySelector("#example tbody");
-      tbody.innerHTML = ""; // Limpiar contenido previo
+      tbody.innerHTML = ""; 
 
-      // Limpiar los datos de la tabla sin destruir la instancia
+
       if (dataTableInstance) {
         dataTableInstance.clear();
       }
-      // Llenar la tabla con los conductores
+
       data.forEach((vehiculo, index) => {
         dataTableInstance.row.add([
           index + 1,
@@ -200,13 +199,12 @@ function cargarVehiculos() {
         ]);
       });
 
-      // Redibujar la tabla
       dataTableInstance.draw();
     })
     .catch((error) => console.error("Error al cargar los datos:", error));
 }
 
-// Inicialización de la DataTable fuera de la función cargarUsuarios()
+
 document.addEventListener("DOMContentLoaded", function () {
   dataTableInstance = new DataTable("#example", {
     pageLength: 4,
@@ -222,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             orientation: "landscape",
             pageSize: "A4",
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // Excluye la columna de acciones (índice 11)
+              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
             },
             customize: function (doc) {
               doc.styles.title = {
@@ -238,29 +236,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 fontSize: 12,
               };
 
-              // Eliminar título automático
+         
               doc.content.splice(0, 1);
 
-              // Agregar título personalizado
+  
               doc.content.unshift({
                 text: "REPORTE DE VEHÍCULOS",
                 style: "title",
                 margin: [0, 0, 0, 12],
               });
 
-              // Anchos proporcionales de columnas
+            
               doc.content[1].table.widths = [
-                "4%",  // #
-                "10%", // Placa
-                "10%", // Marca
-                "10%", // Modelo
-                "6%",  // Año
-                "10%", // Tipo
-                "10%", // Pasajeros
-                "10%", // Velocidad
-                "10%", // Kilometraje
-                "12%", // Último mantenimiento
-                "8%"   // Estado
+                "4%",  
+                "10%", 
+                "10%", 
+                "10%", 
+                "6%",  
+                "10%",
+                "10%", 
+                "10%", 
+                "10%",
+                "12%", 
+                "8%"  
               ];
             }
           },
@@ -297,7 +295,7 @@ function eliminarVehiculo(id) {
           cargarVehiculos();
           Swal.fire("Eliminado", "Vehículo eliminado correctamente.", "success");
         } else {
-          // Verifica si el error es por restricción de clave foránea
+  
           if (
             res.error &&
             res.error.includes("a foreign key constraint fails")

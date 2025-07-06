@@ -5,7 +5,7 @@ require_once 'conexion.php';
 try {
     $data = [];
 
-    // ALERTAS DE VELOCIDAD
+
     $stmt = $pdo->query("
         SELECT a.id_alerta, a.velocidad_detectada, a.fecha_alerta, v.placa
         FROM alertas_velocidad a
@@ -16,7 +16,6 @@ try {
     ");
     $data['alertas'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // REPORTES
     $stmt = $pdo->query("
         SELECT r.id_reporte, u.nombre, r.tipo_reporte, r.descripcion, r.fecha_generacion
         FROM reportes r
@@ -26,7 +25,6 @@ try {
     ");
     $data['reportes'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // INCIDENCIAS
     $stmt = $pdo->query("
         SELECT i.id_incidencia, CONCAT(u.nombre, ' ', u.apellido) AS nombre_conductor, i.descripcion, i.estado, i.fecha_incidencia FROM incidencias i LEFT JOIN conductores c ON i.id_conductor = c.id_conductor LEFT JOIN usuarios u ON c.id_usuario = u.id_usuario ORDER BY i.fecha_incidencia DESC LIMIT 10;
     ");

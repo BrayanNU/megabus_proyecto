@@ -104,8 +104,8 @@ button:hover {
 .column1 img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* o "contain", según lo que necesites */
-  border-radius: 30px 150px 150px 30px; /* opcional: para que la imagen siga el borde del div */
+  object-fit: cover;
+  border-radius: 30px 150px 150px 30px;
 }
 
 .column2{
@@ -113,8 +113,6 @@ button:hover {
   width: 100%;
 
 }
-
-  
  
   form {
     display: flex;

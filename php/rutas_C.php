@@ -45,7 +45,6 @@ if ($method === 'GET' && isset($_GET['id'])) {
     try {
         $pdo->beginTransaction();
 
-        // Actualizar el estado de la asignación de ruta
         $stmtUpdate = $pdo->prepare("UPDATE asignacion_rutas SET estado_ruta_asig = 'En ejecucion' WHERE id_asignacion = ?");
         $stmtUpdate->execute([$idAsignacion]);
 

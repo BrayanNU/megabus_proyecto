@@ -12,12 +12,12 @@ function inicializarEventos() {
   const form = document.getElementById("formRuta");
   const velInput = document.getElementById("vel_max");
 
-  // Actualizar código de ruta al escribir en origen o destino
+
   ["origen", "destino"].forEach((id) =>
     document.getElementById(id).addEventListener("input", generarCodigoRuta)
   );
 
-  // Formateo en vivo para el campo de velocidad máxima
+
   velInput.addEventListener("input", () => {
     const valorNumerico = velInput.value.replace(/\D/g, '');
     velInput.value = valorNumerico ? `${valorNumerico} km/h` : "";
@@ -32,7 +32,6 @@ function inicializarEventos() {
     velInput.value = valorNumerico ? `${valorNumerico} km/h` : "";
   });
 
-  // Evento de envío del formulario
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     form.classList.remove("was-validated");
@@ -103,7 +102,7 @@ function inicializarDataTable() {
             orientation: "landscape",
             pageSize: "A4",
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5] // Excluir columna de acciones
+              columns: [0, 1, 2, 3, 4, 5]
             },
             customize: function (doc) {
               doc.styles.title = {
@@ -119,17 +118,16 @@ function inicializarDataTable() {
                 fontSize: 12,
               };
 
-              // Elimina el título automático
+      
               doc.content.splice(0, 1);
 
-              // Agrega título personalizado
               doc.content.unshift({
                 text: "REPORTE DE RUTAS",
                 style: "title",
                 margin: [0, 0, 0, 12],
               });
 
-              // Ajusta ancho de columnas
+        
               doc.content[1].table.widths = ["5%", "15%", "15%", "25%", "15%", "15%"];
             }
           },

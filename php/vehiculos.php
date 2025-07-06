@@ -4,7 +4,7 @@ require_once 'conexion.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Obtener todos los vehiculos
+
 if ($method === 'GET' && !isset($_GET['id'])) {
     try {
         $stmt = $pdo->query("
@@ -19,7 +19,7 @@ SELECT v.id_vehiculo, v.placa,v.marca,v.modelo,v.ano,v.tipo_bus,v.num_pasajeros,
     }
 }
 
-// Obtener un solo vehiculo por ID
+
 elseif ($method === 'GET' && isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
@@ -43,7 +43,7 @@ elseif ($method === 'GET' && isset($_GET['id'])) {
     }
 }
 
-//Agregar conductor
+
 
 elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'agregar') {
 
@@ -66,7 +66,6 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
         exit;
     }
 
-    // Verificacion de si el correo ya existe
     try {
         $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM vehiculos WHERE placa = ?");
         $stmtCheck->execute([$placa]);
@@ -85,7 +84,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
     try {
         $pdo->beginTransaction();
 
-        // Insertar en vehiculos
+
         $stmtVehiculo = $pdo->prepare("INSERT INTO vehiculos (placa, marca, modelo, ano, tipo_bus, num_pasajeros, max_velocidad,kilometraje,ult_mantenimiento, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmtVehiculo->execute([
             $placa,
@@ -109,7 +108,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
 }
 
 
-// Editar conductor
+
 elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
     $id_vehiculo = $_POST['id_vehiculo'] ?? '';
     $placa = $_POST['placa'] ?? '';
@@ -138,7 +137,7 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
             throw new Exception("Vehiculo no encontrado");
         }
 
-        // Actualizar datos en vehiculos
+       
         $stmtUpdateVehiculo = $pdo->prepare("UPDATE vehiculos SET placa = ?, marca = ?, modelo = ?, ano = ?, tipo_bus = ?, num_pasajeros = ?, max_velocidad = ?, kilometraje = ?, ult_mantenimiento = ?, estado = ? WHERE id_vehiculo = ?");
         $stmtUpdateVehiculo->execute([$placa, $marca, $modelo, $ano, $tipo_bus, $num_pasajeros, $max_velocidad, $kilometraje, $ult_mantenimiento, $estado, $id_vehiculo]);
 
@@ -152,14 +151,14 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
 
 
 
-// Eliminar un vehiculo 
+
 elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     $id = $_POST['id'] ?? '';
 
     try {
         $pdo->beginTransaction();
 
-        // Verificar si el vehículo existe
+      
         $stmt = $pdo->prepare("SELECT id_vehiculo FROM vehiculos WHERE id_vehiculo = ?");
         $stmt->execute([$id]);
         $id_vehiculo = $stmt->fetchColumn();
@@ -168,7 +167,7 @@ elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
             throw new Exception("Vehículo no encontrado");
         }
 
-        // Intentar eliminar el vehículo
+
         $stmtDelete = $pdo->prepare("DELETE FROM vehiculos WHERE id_vehiculo = ?");
         $stmtDelete->execute([$id]);
 
@@ -178,7 +177,6 @@ elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     } catch (PDOException $e) {
         $pdo->rollBack();
 
-        // Detectar error de integridad referencial (vehículo en uso)
         if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
             echo json_encode([
                 "success" => false,

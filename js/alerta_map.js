@@ -1,7 +1,6 @@
-// alertas_velocidad.js
-// Este archivo es solo para mostrar alertas de velocidad en tiempo real
+
 let alertaInterval = null;
-let ultimaAlertaId = null; // Para evitar mostrar muchas veces la misma alerta
+let ultimaAlertaId = null; 
 
 document.addEventListener("DOMContentLoaded", () => {
   const rol = sessionStorage.getItem("rol");
@@ -11,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function iniciarAlertaVelocidad() {
-  if (alertaInterval !== null) return; // ya está corriendo
+  if (alertaInterval !== null) return; 
 
   const idUsuario = sessionStorage.getItem("id_usuario");
   if (!idUsuario) {

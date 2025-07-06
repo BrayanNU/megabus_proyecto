@@ -1,4 +1,3 @@
-  /* Colores y estilos reutilizables */
   :root {
     --background-color: white;
     --text-title-color: #053d4e;
@@ -12,10 +11,9 @@
     --border-color: #004fe2;
   }
   
-  /* Fuente personalizada desde Google Fonts */
   @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
   
-  /* Ajustes generales de márgenes, padding y fuente */
+
   * {
     margin: 0;
     padding: 0;
@@ -27,7 +25,7 @@
     height: 100vh;
   }
   
-   /* Encabezado*/
+
   header {
     z-index: 200;
     width: 100%;
@@ -41,7 +39,7 @@
     left: 0;
   }
   
-    /* Alineación del logo y el menú */
+
   .left {
     display: flex;
     align-items: center;
@@ -82,7 +80,6 @@
     color: var(--text-title-color);
   }
   
-/* Contenedor de los íconos del lado derecho */
 .right {
   display: flex;
   justify-content: center;
@@ -120,8 +117,7 @@
   font-weight: 600;
 }
   
-  
-    /* Menú lateral */
+
   .sidebar {
     margin-top: 4rem;
     width: 4rem;
@@ -137,7 +133,7 @@
     transition: width 0.5s ease;
   }
   
-  /* Ancho cuando el menú se expande */
+
   .sidebar.menu-toggle {
     width: 18.75rem;
   }
@@ -168,16 +164,16 @@
   }
   
   .sidebar ul {
-    list-style: none; /* Elimina los bullets */
+    list-style: none; 
     padding: 0;
     margin: 0;
   }
   
   .sidebar li::marker {
-    content: none; /* Elimina el ::marker pseudo-element */
+    content: none;
   }
   
-    /* Contenido principal */
+
   main {
     margin-top: 4rem;
     margin-left: 4rem;
@@ -187,8 +183,7 @@
   main.menu-toggle {
     margin-left: 18.75rem;
   }
-  
-  /* Responsive movil*/
+
   @media (max-width: 500px) {
     .right .icons-header {
       display: none;

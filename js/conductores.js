@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
 
-  // Función para generar correo y contraseña
+
   function generarEmailYPassword() {
     const nombre = nombreInput.value.trim().toLowerCase().replace(/\s+/g, "");
     const apellido = apellidoInput.value
@@ -20,11 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/\s+/g, "");
     const email = nombre && apellido ? `${nombre}.${apellido}@gmail.com` : "";
 
-    // Generar contraseña simple usando nombre + número aleatorio
-    const password = `${nombre}${Math.floor(Math.random() * 10000)}`; // Ejemplo: pedro12345
+
+    const password = `${nombre}${Math.floor(Math.random() * 10000)}`; 
 
     emailInput.value = email;
-    passwordInput.value = password; // Mostrar la contraseña generada
+    passwordInput.value = password;
   }
 
   nombreInput.addEventListener("input", generarEmailYPassword);
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     this.classList.remove("was-validated");
 
-    // Obtener valores
+
     const dni = document.getElementById("dni").value.trim();
     const nombre = nombreInput.value.trim();
     const apellido = apellidoInput.value.trim();
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Validaciones
+
     if (dni === "" || !/^\d{8}$/.test(dni)) {
       valid = false;
       mensajes.push("DNI no válido. Debe tener exactamente 8 dígitos.");
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       mensajes.push("Teléfono no válido. Debe tener exactamente 9 dígitos.");
     }
 
-    // Mostrar errores
+
     if (!valid) {
       Swal.fire({
         icon: "error",
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("accion", "agregar");
     }
 
-    // Enviar datos al servidor
+
     fetch("/megabus_proyecto/php/conductores.php", {
       method: "POST",
       body: formData,
@@ -144,19 +144,19 @@ function cargarConductores() {
   fetch("/megabus_proyecto/php/conductores.php")
     .then((response) => response.json())
     .then((data) => {
-      console.log("Respuesta del servidor:", data); // Agrega esto
+      console.log("Respuesta del servidor:", data); 
       if (!Array.isArray(data)) {
         throw new Error("La respuesta no es un array");
       }
 
       const tbody = document.querySelector("#example tbody");
-      tbody.innerHTML = ""; // Limpiar contenido previo
+      tbody.innerHTML = ""; 
 
-      // Limpiar los datos de la tabla sin destruir la instancia
+ 
       if (dataTableInstance) {
         dataTableInstance.clear();
       }
-      // Llenar la tabla con los conductores
+
       data.forEach((conductor, index) => {
         dataTableInstance.row.add([
           index + 1,
@@ -173,13 +173,13 @@ function cargarConductores() {
         ]);
       });
 
-      // Redibujar la tabla
+ 
       dataTableInstance.draw();
     })
     .catch((error) => console.error("Error al cargar los datos:", error));
 }
 
-// Inicialización de la DataTable fuera de la función cargarUsuarios()
+
 document.addEventListener("DOMContentLoaded", function () {
   dataTableInstance = new DataTable("#example", {
     pageLength: 4,
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
             orientation: "portrait",
             pageSize: "A4",
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6] // Excluir columna de acciones
+              columns: [0, 1, 2, 3, 4, 5, 6] 
             },
             customize: function (doc) {
               doc.styles.title = {
@@ -211,10 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 fontSize: 12,
               };
 
-              // Elimina el título automático
               doc.content.splice(0, 1);
 
-              // Insertar título de empresa "Mega Bus"
+
               doc.content.unshift({
                 text: "MEGA BUS",
                 style: "title",
@@ -224,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 alignment: "center"
               });
 
-              // Insertar subtítulo
+ 
               doc.content.splice(1, 0, {
                 text: "REPORTE DE CONDUCTORES",
                 style: "subheader",
@@ -232,15 +231,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 alignment: "center"
               });
 
-              // Ajustar ancho de columnas (adaptar si es necesario)
+  
               doc.content[2].table.widths = [
-                "5%",   // #
-                "15%",  // DNI
-                "15%",  // Nombre
-                "15%",  // Apellido
-                "20%",  // Licencia
-                "15%",  // Fecha Venc.
-                "15%",  // Teléfono
+                "5%",  
+                "15%",  
+                "15%",  
+                "15%",  
+                "20%", 
+                "15%",  
+                "15%",
               ];
             }
           },

@@ -1,4 +1,4 @@
-/* Colores y estilos reutilizables */
+
 :root {
   --background-color: white;
   --text-title-color: #053d4e;
@@ -12,10 +12,10 @@
   --border-color: #004fe2;
 }
 
-/* Fuente personalizada desde Google Fonts */
+
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 
-/* Ajustes generales de márgenes, padding y fuente */
+
 * {
   margin: 0;
   padding: 0;
@@ -28,7 +28,6 @@ body {
   height: 100vh;
 }
 
-/* Encabezado*/
 header {
   z-index: 200;
   width: 100%;
@@ -42,7 +41,6 @@ header {
   left: 0;
 }
 
-/* Alineación del logo y el menú */
 .left {
   display: flex;
   align-items: center;
@@ -83,7 +81,6 @@ header {
   color: var(--text-title-color);
 }
 
-/* Contenedor de los íconos del lado derecho */
 .derecha{
   display: flex;
   align-items:center;
@@ -128,7 +125,6 @@ header {
   font-weight: 600;
 }
 
-/* Menú lateral */
 .sidebar {
   margin-top: 4rem;
   width: 18.75rem;
@@ -144,7 +140,7 @@ header {
   transition: width 0.5s ease;
 }
 
-/* Ancho cuando el menú se expande */
+
 .sidebar.menu-toggle {
   width: 4rem;
 }
@@ -175,24 +171,24 @@ header {
 }
 
 .sidebar ul {
-  list-style: none; /* Elimina los bullets */
+  list-style: none; 
   padding: 0;
   margin: 0;
 }
 
 .sidebar li::marker {
-  content: none; /* Elimina el ::marker pseudo-element */
+  content: none;
 }
 
-/* Contenido principal */
+
 #main h2 {
   font-size: 25px;
 }
 main {
   overflow: hidden;
   display: flex;
-  flex-direction: row; /* elementos en fila */
-  gap: 0; /* sin espacio entre ellos */
+  flex-direction: row; 
+  gap: 0; 
   height: calc(100vh - 4rem);
   margin-top: 4rem;
   margin-left: 18.75rem;
@@ -222,7 +218,7 @@ main .page {
   border-radius: 15px;
   padding: 10px;
 }
-/*FORMULARIO*/
+
 #formAsigRuta {
   display: grid;
 }
@@ -291,7 +287,7 @@ select:focus {
   border-radius: 30px;
   width: 150px;
 }
-/* Responsive movil*/
+
 @media (max-width: 500px) {
   .right .icons-header {
     display: none;

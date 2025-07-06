@@ -6,7 +6,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 try {
     if ($method === 'GET' && isset($_GET['id'])) {
-        // Obtener historial completo del conductor
+
         $idConductor = $_GET['id'];
 
         $stmt = $pdo->prepare("
@@ -43,7 +43,6 @@ ORDER BY hv.fecha_viaje DESC;
             exit;
         }
 
-        // Construir consulta dinámica
         $sql = "
             SELECT 
                 hv.fecha_viaje,
@@ -84,7 +83,7 @@ WHERE c.id_usuario = ?
         exit;
     }
 
-    // Método no permitido
+
     http_response_code(405);
     echo json_encode(['error' => 'Método no permitido']);
 } catch (PDOException $e) {

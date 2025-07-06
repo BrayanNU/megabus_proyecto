@@ -30,7 +30,7 @@
 
   <script>
     const iframe = document.getElementById('api-frame');
-    const uid = '8361228fca134c7d9890ded9232cc03f'; // Modelo 3D del bus
+    const uid = '8361228fca134c7d9890ded9232cc03f';
     const client = new Sketchfab(iframe);
 
     client.init(uid, {
@@ -50,7 +50,7 @@
             if (x > 2.5) {
               clearInterval(interval);
 
-              // Redirigir automáticamente al dashboard después de la animación
+        
               setTimeout(() => {
                 window.location.href = "../vista/dashboard.html";
               }, 500);

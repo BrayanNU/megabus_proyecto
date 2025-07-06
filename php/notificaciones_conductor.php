@@ -11,7 +11,7 @@ try {
 
     $idUsuario = $_GET['id_usuario'];
 
-    // Obtener el ID del conductor desde el ID de usuario
+
     $stmt = $pdo->prepare("SELECT id_conductor FROM conductores WHERE id_usuario = ?");
     $stmt->execute([$idUsuario]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -25,7 +25,7 @@ try {
     $idConductor = $row['id_conductor'];
     $data = [];
 
-    // ALERTAS DE VELOCIDAD para conductor
+
     $stmt = $pdo->prepare("
         SELECT a.id_alerta, a.velocidad_detectada, a.fecha_alerta, v.placa
         FROM alertas_velocidad a
@@ -38,7 +38,7 @@ try {
     $stmt->execute([$idConductor]);
     $data['alertas'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // INCIDENCIAS propias
+
     $stmt = $pdo->prepare("
         SELECT descripcion, estado, fecha_incidencia
         FROM incidencias

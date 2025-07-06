@@ -26,7 +26,7 @@ function cargarNotificacionesConductor() {
 
 function mostrarNotificaciones(data) {
   const tbody = document.querySelector("#example tbody");
-  tbody.innerHTML = ""; // Limpiar
+  tbody.innerHTML = ""; 
 
   if (dataTableInstance) {
     dataTableInstance.clear();
@@ -61,7 +61,7 @@ function mostrarNotificaciones(data) {
     });
   }
 
-  // Si no hay datos, muestra fila vacía con colspan
+
   if (!hayDatos) {
     dataTableInstance.row.add([
       "", "No tienes alertas registradas", "", "", ""

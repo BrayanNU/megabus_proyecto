@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         confirmButtonText: "OK"
       }).then((result) => {
         if (result.isConfirmed) {
-          // Redirigir después de que el usuario haga clic en OK
+          
           window.location.href = "../vista/login.html";
         }
       });
@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const id_asignacion = params.get("id_asignacion");
 
-  // 2. Mostrar en el campo oculto
+
   document.getElementById("id_asignacion").value = id_asignacion;
 
-  // 3. Consultar nombre de la ruta con PHP y mostrar
+
   fetch(`/megabus_proyecto/php/reporte_C.php?accion=obtenerNombreRuta&id_asignacion=${id_asignacion}`)
     .then(res => res.json())
     .then(data => {

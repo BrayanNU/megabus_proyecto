@@ -4,7 +4,7 @@ require_once 'conexion.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Obtener todos los usuarios
+
 if ($method === 'GET' && !isset($_GET['id'])) {
     try {
         $stmt = $pdo->query("
@@ -19,7 +19,7 @@ FROM usuarios u;
     }
 }
 
-// Obtener un solo conductor por ID
+
 elseif ($method === 'GET' && isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
@@ -45,7 +45,7 @@ SELECT u.id_usuario, u.nombre, u.apellido, u.correo , u.contrasena, u.rol, u.est
     }
 }
 
-//Agregar conductor
+
 
 elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'agregar') {
 
@@ -61,7 +61,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
         exit;
     }
 
-    // Verificacion de si el correo ya existe
+
     try {
         $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE correo = ?");
         $stmtCheck->execute([$correo]);
@@ -76,13 +76,13 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
         exit;
     }
 
-    // Encriptacion de la contraseña
+
     $passwordHash = password_hash($passwordPlano, PASSWORD_DEFAULT);
 
     try {
         $pdo->beginTransaction();
 
-        // Insertar en usuarios
+   
         $stmtUsuario = $pdo->prepare("INSERT INTO usuarios (nombre, apellido, correo, contrasena, rol, estado) VALUES (?, ?, ?, ?, ?, ?)");
         $stmtUsuario->execute([
             $nombre,
@@ -103,7 +103,7 @@ elseif ($method === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'a
 }
 
 
-// Editar conductor
+
 elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
 
 
@@ -132,7 +132,7 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
             throw new Exception("Usuario no encontrado");
         }
 
-        // Actualizar datos en usuarios
+
         $stmtUpdateUser = $pdo->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, correo = ?, contrasena = ?, rol = ?, estado= ? WHERE id_usuario = ?");
         $stmtUpdateUser->execute([$nombre, $apellido, $correo,$passwordHash, $rol, $estado, $id_usuario]);
 
@@ -145,7 +145,7 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
 }
 
 
-// Eliminar un usuario
+
 
 if ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     $id = $_POST['id'] ?? '';

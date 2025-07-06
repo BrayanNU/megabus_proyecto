@@ -12,7 +12,7 @@ if (!$id_asignacion || !$velocidad) {
 }
 
 try {
-    // Solo actualiza la velocidad actual
+
     $stmt = $pdo->prepare("UPDATE asignacion_rutas SET velocidad_actual = ? WHERE id_asignacion = ?");
     $stmt->execute([$velocidad, $id_asignacion]);
 

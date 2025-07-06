@@ -22,11 +22,11 @@ if ($method === 'GET' && isset($_GET['id_asignacion'])) {
         $ruta = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($ruta && !empty($ruta['destino'])) {
-            // Solo se requiere "destino" para que funcione el JS
+  
             echo json_encode([
                 "destino" => $ruta['destino'],
-                "origen" => $ruta['origen'],     // opcional
-                "vel_max" => $ruta['vel_max']    // opcional
+                "origen" => $ruta['origen'],     
+                "vel_max" => $ruta['vel_max']    
             ]);
         } else {
             echo json_encode(["error" => "Ruta no encontrada o destino vacío."]);

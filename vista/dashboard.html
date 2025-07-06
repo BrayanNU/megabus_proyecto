@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/dashboard.css" />
   </head>
   <body>
-       <!-- Encabezado-->
+
     <header>
       <div class="left">
         <div class="menu-container">
@@ -49,7 +49,7 @@
       </div>
       
     </header>
-          <!-- Menú lateral de navegación -->
+
     <div class="sidebar" id="sidebar">
       <nav>
         <ul>
@@ -103,11 +103,23 @@
           </li>
         </ul>
       </nav>
+      <div class="gif" style="
+        background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTNobGt3cHBodmpyeHVjcmdwMWE3MzRvNnkweWEyYndhbGNweW5hayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/AQY0N1tpkfaQAjtx99/giphy.gif'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 250px; 
+        width: 250px;
+        margin-left: 22px;
+        margin-top: 100px;
+        background-color: brown;">
+      </div>
+
     </div>
 
     <main id="main">
         <div class="content_general">
-          <!-- PRIMERA FILA: Cuadros -->
+    
           <div class="block_1">
                 <div class="sub">
               <div class="bad">
@@ -149,27 +161,26 @@
             </div>
           </div>
 
-          <!-- SEGUNDA FILA: Gráficos -->
+      
           <div class="block_2">
-            <!-- Gráfico de Barras: Alertas por Vehículo -->
+     
             <div class="med_a">
               <canvas id="alertasVehiculosChart" width="400" height="200"></canvas>
             </div>
 
-            <!-- Gráfico Anillo 1: Estado de Vehículos -->
             <div class="med_b">
               <canvas id="estadoVehiculosChart" width="300" height="300"></canvas>
             </div>
 
-            <!-- Gráfico Anillo 2: Tipos de Incidencias -->
+ 
             <div class="med_c">
               <canvas id="incidenciasChart" width="300" height="300"></canvas>
             </div>
           </div>
 
-          <!-- TERCERA FILA: Tabla - Notificaciones - Línea -->
+         
           <div class="block_3">
-            <!-- Tabla de viajes o historial -->
+      
             <div class="foot_a">
               <p style="font-size: 20px; font-weight: 600;">Historial reciente</p>
               <table class="table">
@@ -182,20 +193,20 @@
                   </tr>
                 </thead>
                 <tbody id="tablaHistorial">
-                  <!-- Cargar con JS si deseas -->
+                 
                 </tbody>
               </table>
             </div>
 
-            <!-- Cuadro de notificaciones -->
+        
             <div class="foot_b">
               <p style="font-size: 20px; font-weight: 600;">Notificaciones</p>
               <ul id="listaNotificaciones" class="list-group">
-                <!-- Se llenará con JS -->
+     
               </ul>
             </div>
 
-            <!-- Gráfico de línea: viajes por día -->
+           
             <div class="foot_c">
               <canvas id="viajesLineaChart" width="400" height="310"></canvas>
             </div>

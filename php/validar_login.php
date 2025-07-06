@@ -12,20 +12,20 @@ if (empty($correo) || empty($contrasena)) {
     exit;
 }
 
-// buscar correo activo
+
 $sql = "SELECT * FROM usuarios WHERE correo = :correo AND estado = 'Activo'";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':correo', $correo);
 $stmt->execute();
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Verificar usuario
+
 if (!$usuario) {
     echo json_encode(['success' => false, 'message' => 'Usuario no encontrado o inactivo.']);
     exit;
 }
 
-// Verificar contraseña
+
 if (password_verify($contrasena, $usuario['contrasena'])) {
     $_SESSION['id_usuario'] = $usuario['id_usuario'];
     $_SESSION['nombre'] = $usuario['nombre'];

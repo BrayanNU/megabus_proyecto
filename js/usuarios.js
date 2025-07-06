@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("correo");
   const passwordInput = document.getElementById("contrasena");
 
-  // Función para generar correo y contraseña
+
   function generarEmailYPassword() {
     const nombre = nombreInput.value.trim().toLowerCase().replace(/\s+/g, "");
     const apellido = apellidoInput.value
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/\s+/g, "");
     const email = nombre && apellido ? `${nombre}.${apellido}@gmail.com` : "";
 
-    // Generar contraseña simple usando nombre + número aleatorio
+    
     const password = Array.from({ length: 10 }, () =>
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(
         Math.floor(Math.random() * 74)
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ).join("");
 
     emailInput.value = email;
-    passwordInput.value = password; // Mostrar la contraseña generada
+    passwordInput.value = password; 
   }
 
   nombreInput.addEventListener("input", generarEmailYPassword);
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const rol = document.getElementById("rol").value.trim();
     const estado = document.getElementById("estado").value.trim();
 
-    // Expresión regular solo para letras
+
     const sinSentido = /(asd|qwe|zxc|lkm|poi|mnb|aaa|eee|zzz){1,}/i;
     const soloLetrasBien =
       /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/;
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const nombreLimpio = nombre.replace(/\s+/g, " ").trim();
     const apellidoLimpio = apellido.replace(/\s+/g, " ").trim();
 
-    // Validar nombre
+
     if (
       nombreLimpio === "" ||
       !soloLetrasBien.test(nombreLimpio) ||
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Validar apellido
+   
     if (
       apellidoLimpio === "" ||
       !soloLetrasBien.test(apellidoLimpio) ||
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Validación nativa del formulario
+
     if (!this.checkValidity()) {
       this.classList.add("was-validated");
       return;
@@ -111,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("accion", "agregar");
     }
 
-    // Enviar datos al servidor
     fetch("/megabus_proyecto/php/usuarios.php", {
       method: "POST",
       body: formData,
@@ -144,25 +143,23 @@ function cargarUsuarios() {
   fetch("/megabus_proyecto/php/usuarios.php")
     .then((response) => response.json())
     .then((data) => {
-      console.log("Respuesta del servidor:", data); // Agrega esto
+      console.log("Respuesta del servidor:", data); 
       if (!Array.isArray(data)) {
         throw new Error("La respuesta no es un array");
       }
 
       const tbody = document.querySelector("#example tbody");
-      tbody.innerHTML = ""; // Limpiar contenido previo
+      tbody.innerHTML = ""; 
 
-      // Limpiar los datos de la tabla sin destruir la instancia
+    
       if (dataTableInstance) {
         dataTableInstance.clear();
       }
 
-      // Agregar los nuevos datos a la tabla
       data.forEach((usuario, index) => {
-        const contrasenaOculta = "*".repeat(usuario.contrasena.length); // Muestra asteriscos según la longitud de la contraseña
-
+        const contrasenaOculta = "*".repeat(usuario.contrasena.length); 
         dataTableInstance.row.add([
-          index + 1, // Número de fila
+          index + 1,
           usuario.nombre,
           usuario.apellido,
           usuario.correo,
@@ -176,13 +173,13 @@ function cargarUsuarios() {
         ]);
       });
 
-      // Redibujar la tabla
+      
       dataTableInstance.draw();
     })
     .catch((error) => console.error("Error al cargar los datos:", error));
 }
 
-// Inicialización de la DataTable fuera de la función cargarUsuarios()
+
 document.addEventListener("DOMContentLoaded", function () {
   dataTableInstance = new DataTable("#example", {
     pageLength: 4,
@@ -195,24 +192,24 @@ document.addEventListener("DOMContentLoaded", function () {
     orientation: "landscape",
     pageSize: "A4",
     exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6] // Omitir columna de botones (índice 7)
+      columns: [0, 1, 2, 3, 4, 5, 6] 
     },
     customize: function (doc) {
-      // Cambiar fuente, estilos, encabezados, márgenes, etc.
+      
       doc.styles.title = {
         color: "#007bff",
         fontSize: "20",
         alignment: "center",
       };
 
-      doc.content.splice(0, 1); // Elimina el título original
+      doc.content.splice(0, 1); 
       doc.content.unshift({
         text: "REPORTE DE USUARIOS",
         style: "title",
         margin: [0, 0, 0, 10],
       });
 
-      // Cambiar alineación de la tabla
+
       doc.content[1].table.widths = ["5%", "15%", "15%", "25%", "10%", "15%", "15%"];
     }
   }, "colvis"],
@@ -260,12 +257,12 @@ function eliminarUsuario(id) {
 
 
 function editarUsuario(id) {
-  console.log("Editando usuario con ID:", id); // <== AÑADE ESTO
+  console.log("Editando usuario con ID:", id);
 
   fetch(`/megabus_proyecto/php/usuarios.php?id=${id}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log("Datos recibidos del servidor:", data); // <== Agregado para depuración
+      console.log("Datos recibidos del servidor:", data);
 
       const usuario = data;
       document.getElementById("nombre").value = usuario.nombre;

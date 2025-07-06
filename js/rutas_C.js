@@ -60,7 +60,7 @@ function cargarRutas_C() {
           const divRuta = document.createElement("div");
           divRuta.classList.add("ruta_asig");
 
-          // Contenido personalizado
+
           divRuta.innerHTML = `
             <div id="infoRuta">
               <p>${ruta.origen} ➜ ${ruta.destino}</p>

@@ -9,7 +9,6 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
   errorMsg.textContent = "";
   errorMail.textContent = "";
 
-  // Validación de campos
   if (!correo || !contrasena) {
     errorMsg.textContent = "Todos los campos son obligatorios.";
     return;

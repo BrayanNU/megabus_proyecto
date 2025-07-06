@@ -4,7 +4,7 @@ require_once 'conexion.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Obtener TODAS las rutas
+
 if ($method === 'GET' && !isset($_GET['id'])) {
     try {
         $stmt = $pdo->query("SELECT id_ruta, cod_ruta, origen, destino, vel_max, estado FROM rutas");
@@ -16,7 +16,6 @@ if ($method === 'GET' && !isset($_GET['id'])) {
     }
 }
 
-// Obtener UNA ruta por ID
 elseif ($method === 'GET' && isset($_GET['id'])) {
     $id = $_GET['id'];
     try {
@@ -36,7 +35,7 @@ elseif ($method === 'GET' && isset($_GET['id'])) {
     }
 }
 
-// AGREGAR una ruta
+
 elseif ($method === 'POST' && $_POST['accion'] === 'agregar') {
     $cod_ruta = trim($_POST['cod_ruta'] ?? '');
     $origen = trim($_POST['origen'] ?? '');
@@ -44,14 +43,14 @@ elseif ($method === 'POST' && $_POST['accion'] === 'agregar') {
     $vel_max = trim($_POST['vel_max'] ?? '');
     $estado = trim($_POST['estado'] ?? '');
 
-    // Validación básica
+ 
     if (!$cod_ruta || !$origen || !$destino || !$vel_max || !$estado) {
         echo json_encode(["success" => false, "error" => "Todos los campos son obligatorios"]);
         exit;
     }
 
     try {
-        // Verificar si ya existe la ruta
+   
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM rutas WHERE cod_ruta = ?");
         $stmt->execute([$cod_ruta]);
 
@@ -69,7 +68,6 @@ elseif ($method === 'POST' && $_POST['accion'] === 'agregar') {
     }
 }
 
-// EDITAR ruta
 elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
     $id_ruta = $_POST['id_ruta'] ?? '';
     $cod_ruta = trim($_POST['cod_ruta'] ?? '');
@@ -100,7 +98,6 @@ elseif ($method === 'POST' && $_POST['accion'] === 'editar') {
     }
 }
 
-// ELIMINAR ruta
 elseif ($method === 'POST' && $_POST['accion'] === 'eliminar') {
     $id = $_POST['id'] ?? '';
 

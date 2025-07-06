@@ -50,6 +50,6 @@
         });
 }
 
-// Carga inicial y actualizaciones cada 5 segundos
+
 cargarVelocidades();
 setInterval(cargarVelocidades, 5000);

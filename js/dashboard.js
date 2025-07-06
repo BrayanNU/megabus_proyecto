@@ -2,13 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("../php/dashboard.php")
     .then((response) => response.json())
     .then((data) => {
-      // Cuadros de la fila superior
+
       actualizarIndicador("vehiculosActivos", data.vehiculosActivos, "Vehículos activos");
       actualizarIndicador("conductoresActivos", data.conductoresActivos, "Conductores activos");
       actualizarIndicador("alertasHoy", data.alertasHoy, "Alertas de velocidad (hoy)");
       actualizarIndicador("viajesMes", data.viajesMes, "Viajes realizados mes");
 
-      // Gráfico de barras: alertas por vehículo
+
       if (data.alertasPorVehiculo) {
         const labels = data.alertasPorVehiculo.map(item => item.placa);
         const values = data.alertasPorVehiculo.map(item => item.total_alertas);
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Gráfico de anillo: estado de vehículos
+      
       if (data.estadoVehiculos) {
         const labels = data.estadoVehiculos.map(e => e.estado);
         const values = data.estadoVehiculos.map(e => e.total);
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Gráfico de anillo 2: tipos de incidencias
+    
       if (data.tiposIncidencias) {
         const labels = data.tiposIncidencias.map(e => e.tipo);
         const values = data.tiposIncidencias.map(e => e.total);
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Gráfico de línea: viajes por día (últimos 7 días)
+     
       if (data.viajesPorDia) {
         const labels = data.viajesPorDia.map(e => e.dia);
         const values = data.viajesPorDia.map(e => e.total_viajes);
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // 🟡 Notificaciones dinámicas
+
       if (data.notificaciones) {
         const contenedorNoti = document.getElementById("listaNotificaciones");
         contenedorNoti.innerHTML = "";
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Función auxiliar para actualizar cuadros
+
 function actualizarIndicador(idElemento, valor, textoInfo) {
   const contenedor = document.getElementById(idElemento);
   if (!contenedor) return;

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Quitar clases previas
+   
     this.classList.remove("was-validated");
 
     const dni = form.dni.value.trim();
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const licencia = form.licencia_conducir.value.trim();
     const telefono = form.telefono.value.trim();
 
-    // Validaciones
+
     const mensajes = [];
 
     if ([dni, nombre, apellido, licencia, telefono].every((v) => v === "")) {
@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Generar contraseña: nombre + número aleatorio entre 0 y 9999
+    
     const passwordGenerada = `${nombre.toLowerCase()}${Math.floor(Math.random() * 10000)}`;
 
-    // Preparar FormData para enviar al backend
+
     const formData = new FormData(form);
     formData.set("accion", "confirmar");
     formData.set("password", passwordGenerada);
@@ -60,16 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await response.json();
 
       if (res.success) {
-        // Mostrar contraseña en el modal
+
         passwordSpan.textContent = passwordGenerada;
         modal.show();
 
-        // Cuando cierren el modal, redirigir a login.php
+
         modalElement.addEventListener("hidden.bs.modal", () => {
           window.location.href = "/megabus_proyecto/vista/login.html";
         }, { once: true });
 
-        // Resetear formulario
+
         form.reset();
       } else {
         Swal.fire({

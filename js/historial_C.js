@@ -40,7 +40,7 @@ function filtrarHistorial(e) {
     return;
   }
 
-  // Si ambos campos están vacíos, mostrar historial completo
+  
   if (!codRuta && !fechaViaje) {
     cargarHistorialCompleto();
     return;
@@ -90,7 +90,7 @@ function mostrarHistorial(data) {
     contenedor.appendChild(divViaje);
   });
 
-  // Control de botones
+
   const btnAnterior = document.getElementById("btnAnterior");
   const btnSiguiente = document.getElementById("btnSiguiente");
 
@@ -111,7 +111,7 @@ function mostrarHistorial(data) {
   function updateCarrusel() {
   const tarjeta = contenedor.querySelector(".viaje_card");
   if (tarjeta) {
-    const scrollX = tarjeta.offsetWidth + 20; // 20 px por margen (ajusta si usas gap)
+    const scrollX = tarjeta.offsetWidth + 20; 
     contenedor.scrollTo({
       left: scrollX * currentIndex,
       behavior: "smooth"
@@ -119,8 +119,6 @@ function mostrarHistorial(data) {
   }
 }
 
-
-  // Soporte táctil
   let startX = 0;
 
   contenedor.addEventListener("touchstart", (e) => {
@@ -142,7 +140,6 @@ function mostrarHistorial(data) {
 }
 
 
-// Cierre de sesión
 document.getElementById("cerrarSesion").addEventListener("click", function (e) {
   e.preventDefault();
   sessionStorage.clear();

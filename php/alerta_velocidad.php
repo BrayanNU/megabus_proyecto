@@ -22,7 +22,7 @@ try {
     $ruta = $consulta->fetch(PDO::FETCH_ASSOC);
 
     if ($ruta && $velocidad > floatval($ruta['vel_max'])) {
-        // Para evitar alertas duplicadas, podrías verificar si ya se insertó en los últimos X segundos
+  
         $verificar = $pdo->prepare("
             SELECT 1 FROM alertas_velocidad 
             WHERE id_asignacion = ? 

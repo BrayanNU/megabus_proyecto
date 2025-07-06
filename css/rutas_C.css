@@ -1,4 +1,3 @@
-/* Colores y estilos reutilizables */
 :root {
   --background-color: white;
   --text-title-color: #053d4e;
@@ -12,10 +11,9 @@
   --border-color: #004fe2;
 }
 
-/* Fuente personalizada desde Google Fonts */
+
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 
-/* Ajustes generales de márgenes, padding y fuente */
 * {
   margin: 0;
   padding: 0;
@@ -28,10 +26,10 @@ body {
 }
 
 main {
-  margin-bottom: 4rem; /* espacio para el menú inferior */
+  margin-bottom: 4rem;
 }
 
-/* Barra de navegación inferior estilo App */
+
 .menu {
   display: none;
 }
@@ -134,7 +132,7 @@ main {
   text-align: center;
   padding: 20px 30px;
   border-radius: 10px;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5); /* hace que el texto resalte */
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
   .rutas {
     height: 595px;

@@ -4,7 +4,7 @@ require_once 'conexion.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Obtener nombre de la ruta por id_asignacion (GET)
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['accion'] === 'obtenerNombreRuta') {
     $id_asignacion = $_GET['id_asignacion'] ?? '';
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['accion'] === 'obtenerNombreRu
     exit;
 }
 
-// Agregar nuevo reporte (POST)
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'agregar') {
     $id_usuario = $_POST['id_usuario'] ?? '';
     $id_asignacion = $_POST['id_asignacion'] ?? '';
@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'agregar') {
         exit;
     }
 
-    // Manejo de la imagen
     $foto_nombre = '';
     if (!empty($_FILES['foto']['name'])) {
         $foto_tmp = $_FILES['foto']['tmp_name'];
@@ -61,17 +60,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'agregar') {
     }
 
     try {
-        // Iniciar transacción
+
         $pdo->beginTransaction();
 
-        // 1. Insertar el reporte
+      
         $stmt = $pdo->prepare("
             INSERT INTO reportes (id_usuario, id_asignacion_ruta, tipo_reporte, descripcion, foto, fecha_generacion)
             VALUES (?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([$id_usuario, $id_asignacion, $tipo_reporte, $descripcion, $foto_nombre, $fecha_generacion]);
 
-        // 2. Cambiar estado de la asignación a 'Finalizada'
+   
         $stmtUpdate = $pdo->prepare("
             UPDATE asignacion_rutas 
             SET estado_ruta_asig = 'Finalizada' 
@@ -79,12 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'agregar') {
         ");
         $stmtUpdate->execute([$id_asignacion]);
 
-        // Confirmar cambios
+
         $pdo->commit();
 
         echo json_encode(["success" => true]);
     } catch (PDOException $e) {
-        $pdo->rollBack(); // Revertir si algo falla
+        $pdo->rollBack();
         echo json_encode(["success" => false, "error" => $e->getMessage()]);
     }
 }

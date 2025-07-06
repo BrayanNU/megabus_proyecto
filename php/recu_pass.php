@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'confirmar') {
     $nuevaPassword = $_POST['password'] ?? '';
 
     try {
-        // Buscar al conductor por DNI y otros datos
+
         $stmt = $pdo->prepare("SELECT c.id_conductor, u.id_usuario 
             FROM conductores c 
             JOIN usuarios u ON c.id_usuario = u.id_usuario
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'confirmar') {
 
         $id_usuario = $datos['id_usuario'];
 
-        // Actualizar la contraseña
+
         $stmtUpdate = $pdo->prepare("UPDATE usuarios SET contrasena = ? WHERE id_usuario = ?");
         $nuevaPasswordHash = password_hash($nuevaPassword, PASSWORD_DEFAULT);
         $stmtUpdate->execute([$nuevaPasswordHash, $id_usuario]);

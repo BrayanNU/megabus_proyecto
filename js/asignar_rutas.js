@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Verifica que se haya seleccionado conductor, vehiculo y ruta
+
     if (
       idConductorEditando === null ||
       idVehiculoEditando === null ||
@@ -175,7 +175,7 @@ function select_Vehiculo(id) {
         idVehiculoEditando = id;
         modoEdicion = true;
       } else {
-        // No se encontró o no está activo
+
         document.getElementById("placa").value = "";
         idVehiculoEditando = null;
         Swal.fire("Vehículo no disponible", "Este vehículo no está activo o no se encontró.", "warning");

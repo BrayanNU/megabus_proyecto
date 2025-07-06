@@ -70,27 +70,27 @@
   <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
 
 <script>
-  let map = L.map('map').setView([0, 0], 15); // Activamos controles de zoom
-  map.scrollWheelZoom.enable(); // Zoom con el mouse/touchpad habilitado
+  let map = L.map('map').setView([0, 0], 15); 
+  map.scrollWheelZoom.enable();
 
   let controlRuta = null;
   let marker = null;
   let currentCoords = null;
-  window.simulacionCoords = null; // Ruta lista para simular
+  window.simulacionCoords = null; 
 
-  // Capa base
+
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
   }).addTo(map);
 
-  // Icono de bus rotatorio
+
   const busIcon = L.divIcon({
     html: '<img id="bus-icon" src="../img/bus.png" style="width: 32px; transform: rotate(0deg); transition: transform 0.2s linear;">',
     iconSize: [36, 36],
     className: 'bus-marker-class'
   });
 
-  // Seguimiento GPS
+
   navigator.geolocation.watchPosition(
     (pos) => {
       const lat = pos.coords.latitude;
@@ -107,16 +107,16 @@
     const busImg = document.getElementById("bus-icon");
     if (busImg) busImg.style.transform = `rotate(${heading}deg)`;
 
-    // Velocidad en km/h
+ 
     const speed = pos.coords.speed || 0;
     const speedKmH = (speed * 3.6).toFixed(1);
 
     document.getElementById("speedValue").textContent = speedKmH;
 
-    // Enviar velocidad al servidor
+
     enviarVelocidadAlServidor(speedKmH);
 
-      map.setView(currentCoords, map.getZoom(), { animate: true }); // Conserva zoom actual
+      map.setView(currentCoords, map.getZoom(), { animate: true }); 
     },
     (err) => {
       console.error("Error de GPS:", err.message);
@@ -129,7 +129,7 @@
     }
   );
 
-  // Botón iniciar ruta
+
   document.getElementById("startBtn").addEventListener("click", async () => {
     if (!currentCoords) {
       alert("Esperando ubicación GPS actual...");
@@ -216,14 +216,14 @@
     });
   });
 
-  // Ocultar botón al inicio
+
   document.getElementById("simulateBtn").style.display = "none";
 
 let simulationInterval = null;
 let simulationIndex = 0;
-let velocidadActualKmH = 60 + Math.random() * 20; // entre 60 y 80 km/h al iniciar
+let velocidadActualKmH = 60 + Math.random() * 20; 
 
-let cambioVelocidadInterval = null; // nuevo: para controlar cambios cada minuto
+let cambioVelocidadInterval = null;
 
 const simulateBtn = document.getElementById("simulateBtn");
 
@@ -231,7 +231,7 @@ simulateBtn.addEventListener("click", () => {
   if (simulationInterval) {
     clearTimeout(simulationInterval);
     clearInterval(cambioVelocidadInterval);
-    detenerAlertaVelocidad(); // 🟥 Detenemos la alerta si ya está activa
+    detenerAlertaVelocidad();
     simulationInterval = null;
     simulationIndex = 0;
     simulateBtn.innerHTML = '<img src="../icons/route-perspective-svgrepo-com (1).svg" alt="" />';
@@ -253,15 +253,15 @@ simulateBtn.addEventListener("click", () => {
   }, 10000);
    iniciarAlertaVelocidad(); 
 
-  // nuevo: cambiar velocidad cada minuto (60,000 ms)
+
   cambioVelocidadInterval = setInterval(() => {
-    velocidadActualKmH = 50 + Math.random() * 30; // ahora entre 50 y 80 km/h
+    velocidadActualKmH = 50 + Math.random() * 30; 
   }, 10000);
   iniciarAlertaVelocidad(); 
 
   function simularPaso() {
     if (simulationIndex >= routeLine.length - 1) {
-      clearInterval(cambioVelocidadInterval); // detener cambios al final
+      clearInterval(cambioVelocidadInterval);
       simulateBtn.innerHTML = '<img src="../icons/route-perspective-svgrepo-com (1).svg" alt="" />';
       document.getElementById("speedValue").textContent = "0.0";
       enviarVelocidadAlServidor(0);
@@ -302,7 +302,7 @@ document.getElementById("reportBtn").addEventListener("click", () => {
     Swal.fire("Error", "No se encontró una asignación activa.", "error");
     return;
   }
-  // Redirige incluyendo el ID por la URL
+
   window.location.href = `../vista/reporte_C.html?id_asignacion=${idAsignacion}`;
 });
 
@@ -351,7 +351,7 @@ setInterval(() => {
       velocidad: velocidad
     })
   });
-}, 8000); // Cada 8 segundos
+}, 8000);
 
 </script>
 

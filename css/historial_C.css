@@ -12,10 +12,9 @@
   --border-color: #004fe2;
 }
 
-/* Fuente personalizada desde Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 
-/* Ajustes generales de márgenes, padding y fuente */
+
 * {
   margin: 0;
   padding: 0;
@@ -28,10 +27,9 @@ body {
 }
 
 main {
-  margin-bottom: 4rem; /* espacio para el menú inferior */
+  margin-bottom: 4rem; 
 }
 
-/* Barra de navegación inferior estilo App */
 .menu {
   display: none;
 }
@@ -102,10 +100,6 @@ main {
     height: 816px;
     margin-bottom: 10px;
   }
-
-
-
-
 
   .rutas {
     height: 540px;
@@ -227,7 +221,7 @@ main {
 
 .carrusel {
   display: flex;
-  gap: 20px; /* para espacio entre tarjetas */
+  gap: 20px;
   overflow-x: hidden;
 }
 
@@ -241,7 +235,7 @@ main {
   border-right: 4px solid #85a8e7;
   border-bottom: 4px solid #85a8e7;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* sombra suave */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 550px;
 }
 
