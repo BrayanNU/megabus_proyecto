@@ -1,8 +1,10 @@
 <?php
+echo "🛠 Ejecutando desde: " . __FILE__;
+exit;
 
 
 $host = 'localhost';
-$dbname = 'megabus_proyecto';
+$dbname = 'parking_proyecto';
 $username = 'root';
 $password = ''; 
 try {
@@ -12,4 +14,6 @@ try {
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
 }
+error_log("Conectando a la base de datos: $dbname");
+
 ?>

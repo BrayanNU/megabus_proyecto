@@ -39,7 +39,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
       if (data.rol === "Administrador") {
         window.location.href = "../vista/dashboard.html";
-      } else if (data.rol === "Conductor") {
+      } else if (data.rol === "Cliente") {
         window.location.href = "../vista/rutas_C.html";
       }else {
         window.location.href = "../vista/recuperarPassword.html";
